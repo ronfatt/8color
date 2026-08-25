@@ -85,7 +85,7 @@ export function MirrorCard({
                 </div>
               </div>
               <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-1.5">
-                STATE/8
+                8MIRROR
               </span>
             </div>
 

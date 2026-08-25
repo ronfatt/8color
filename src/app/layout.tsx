@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'STATE/8 · 个人状态模式引擎',
+  title: '8MIRROR｜八镜 · 个人状态罗盘',
   description: '8种状态 · 8面镜像 · 1把钥匙。未来未定，先看清现在。',
   icons: {
     icon: '/favicon.ico',

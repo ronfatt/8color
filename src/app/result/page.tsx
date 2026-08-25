@@ -50,7 +50,7 @@ export default function ResultPage() {
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(
-        `STATE/8 状态觉察：“${question}” — 模式：${pattern.title}（${keyColor.name} · ${keyColor.state}）`
+        `8MIRROR｜八镜 状态觉察：“${question}” — 模式：${pattern.title}（${keyColor.name} · ${keyColor.state}）`
       )
       setCopyFeedback(true)
       setTimeout(() => setCopyFeedback(false), 2500)

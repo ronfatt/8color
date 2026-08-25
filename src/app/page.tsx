@@ -50,7 +50,7 @@ export default function HomePage() {
           className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/80 border border-slate-200 shadow-xs text-xs font-semibold text-slate-600 mb-4"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-slate-800 animate-pulse" />
-          <span>个人状态模式引擎 · 觉察罗盘</span>
+          <span>8MIRROR｜八镜 · 个人状态罗盘</span>
         </motion.div>
 
         {/* Brand Title */}
@@ -60,7 +60,7 @@ export default function HomePage() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl sm:text-6xl font-mono font-black tracking-widest text-slate-900 drop-shadow-xs"
         >
-          STATE/8
+          8MIRROR
         </motion.h1>
 
         {/* Subtitle & Core Philosophy */}
