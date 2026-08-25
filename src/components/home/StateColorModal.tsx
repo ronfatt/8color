@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Sparkles, HelpCircle } from 'lucide-react'
+import { X, Sparkles, HelpCircle, ArrowRight } from 'lucide-react'
 import { StateColor } from '@/types/state8'
 import { ColorOrb } from '@/components/ui/ColorOrb'
 import { GlassPanel } from '@/components/ui/GlassPanel'
@@ -19,82 +19,78 @@ export function StateColorModal({ color, onClose }: StateColorModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-xl transition-all"
+          className="fixed inset-0 bg-slate-900/30 backdrop-blur-md transition-all"
         />
 
-        {/* Modal Window */}
+        {/* Modal Window / Mobile Bottom Sheet */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 20 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative z-10 w-full max-w-lg"
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 60 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+          className="relative z-10 w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden border border-white"
         >
           <GlassPanel
             variant="glow"
-            glowColor={color.glowHex}
-            className="p-6 sm:p-8 relative overflow-hidden"
+            className="p-6 sm:p-7 relative overflow-hidden"
           >
-            {/* Ambient Background Gradient for this color */}
+            {/* Top ambient color tint */}
             <div
-              className="absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none"
+              className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-40 pointer-events-none"
               style={{ backgroundColor: color.glowHex }}
             />
 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
 
-            {/* Header / Orb showcase */}
-            <div className="flex flex-col items-center text-center mt-2 mb-6">
-              <ColorOrb color={color} size={90} isInteractive={false} />
+            {/* Header */}
+            <div className="flex flex-col items-center text-center mt-2 mb-5">
+              <ColorOrb color={color} size={82} isInteractive={false} />
 
-              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest uppercase text-white/80">
-                <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: color.hex }}
-                />
-                <span>STATE 0{['white', 'purple', 'blue', 'pink', 'green', 'yellow', 'orange', 'red'].indexOf(color.id) + 1}</span>
-              </div>
-
-              <h3 className="text-3xl sm:text-4xl font-bold font-mono tracking-widest uppercase text-white mt-2">
-                {color.name}
-              </h3>
               <div
-                className="text-lg font-mono tracking-[0.2em] uppercase font-semibold mt-0.5"
-                style={{ color: color.hex }}
+                className="mt-3 px-3 py-0.5 rounded-full text-xs font-semibold"
+                style={{
+                  backgroundColor: color.lightBg,
+                  color: color.textColor,
+                  border: `1px solid ${color.lightBorder}`,
+                }}
               >
-                {color.state} · {color.chinese}
+                第 0{['white', 'purple', 'blue', 'pink', 'green', 'yellow', 'orange', 'red'].indexOf(color.id) + 1} 状态维度
               </div>
-              <p className="text-xs text-white/50 font-mono uppercase tracking-wider mt-1">
-                {color.actionChinese}
+
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-2 font-sans">
+                {color.name} · {color.state}
+              </h3>
+              <p className="text-xs text-slate-500 font-medium mt-1">
+                {color.actionAdvice}
               </p>
             </div>
 
-            {/* Content Body */}
-            <div className="space-y-4">
+            {/* Body */}
+            <div className="space-y-3.5">
               {/* Keywords */}
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
-                <div className="text-[10px] font-mono tracking-widest text-white/40 uppercase mb-1.5 flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Key Frequencies</span>
+              <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-200/70">
+                <div className="text-[10px] font-semibold text-slate-400 uppercase mb-1.5 flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-slate-500" />
+                  <span>核心状态关键词</span>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {color.keywords.map((kw) => (
                     <span
                       key={kw}
-                      className="px-2.5 py-1 rounded-md text-xs font-medium text-white/90 bg-white/5 border border-white/10"
+                      className="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 bg-white border border-slate-200/80 shadow-2xs"
                     >
                       {kw}
                     </span>
@@ -103,39 +99,42 @@ export function StateColorModal({ color, onClose }: StateColorModalProps) {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-white/70 leading-relaxed font-light">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                 {color.description}
               </p>
 
               {/* Reflection Question */}
               <div
-                className="p-4 rounded-xl border backdrop-blur-md"
+                className="p-3.5 rounded-2xl border"
                 style={{
-                  backgroundColor: `rgba(${color.rgb}, 0.06)`,
-                  borderColor: `rgba(${color.rgb}, 0.25)`,
+                  backgroundColor: color.lightBg,
+                  borderColor: color.lightBorder,
                 }}
               >
-                <div className="text-[10px] font-mono tracking-widest uppercase mb-1 flex items-center gap-1.5" style={{ color: color.hex }}>
+                <div
+                  className="text-[10px] font-bold uppercase mb-1 flex items-center gap-1"
+                  style={{ color: color.textColor }}
+                >
                   <HelpCircle className="w-3 h-3" />
-                  <span>Pattern Question</span>
+                  <span>觉察提问</span>
                 </div>
-                <p className="text-sm font-medium text-white/95 italic">
-                  &ldquo;{color.question}&rdquo;
+                <p className="text-xs sm:text-sm font-medium text-slate-800 italic">
+                  “{color.question}”
                 </p>
               </div>
             </div>
 
-            {/* Footer Action */}
-            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+            {/* Footer */}
+            <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
               <button
                 onClick={onClose}
-                className="text-xs font-mono tracking-wider uppercase text-white/40 hover:text-white transition-colors px-3 py-2 cursor-pointer"
+                className="text-xs font-medium text-slate-400 hover:text-slate-700 px-3 py-2 cursor-pointer"
               >
-                Dismiss
+                关闭
               </button>
               <Link href="/reading" className="flex-1 max-w-[200px]">
-                <PrimaryButton size="sm" className="w-full">
-                  Read In Pattern
+                <PrimaryButton size="sm" className="w-full" icon={<ArrowRight className="w-3.5 h-3.5" />}>
+                  进入觉察起牌
                 </PrimaryButton>
               </Link>
             </div>

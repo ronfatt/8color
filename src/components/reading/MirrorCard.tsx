@@ -31,13 +31,13 @@ export function MirrorCard({
   }
 
   return (
-    <div className="flex flex-col items-center select-none group w-full">
-      {/* 3D Flip Container */}
+    <div className="flex flex-col items-center select-none w-full">
+      {/* 3D Card Container */}
       <div
         onClick={handleClick}
         className={cn(
-          'relative w-full aspect-[2/3] max-w-[170px] sm:max-w-[190px] rounded-2xl perspective-1000 transition-all duration-300',
-          !isRevealed && isCurrentTarget && 'cursor-pointer hover:scale-[1.03]',
+          'relative w-full aspect-[2/3] max-w-[155px] sm:max-w-[180px] rounded-2xl perspective-1000 transition-all duration-300',
+          !isRevealed && isCurrentTarget && 'cursor-pointer hover:scale-[1.03] active:scale-[0.98]',
           isLocked && 'opacity-40 cursor-not-allowed',
           !isRevealed && !isCurrentTarget && !isLocked && 'opacity-60 cursor-not-allowed'
         )}
@@ -50,58 +50,58 @@ export function MirrorCard({
           {/* ================= CARD BACK (UNREVEALED) ================= */}
           <div
             className={cn(
-              'absolute inset-0 rounded-2xl backface-hidden flex flex-col items-center justify-between p-4 sm:p-5',
-              'glass-panel border border-white/15 bg-gradient-to-b from-white/[0.08] to-transparent shadow-xl',
-              isCurrentTarget && 'border-white/40 ring-2 ring-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)]'
+              'absolute inset-0 rounded-2xl backface-hidden flex flex-col items-center justify-between p-3.5 sm:p-4',
+              'bg-white/90 backdrop-blur-xl border border-slate-200 shadow-md',
+              isCurrentTarget && 'border-slate-400 ring-2 ring-slate-300 shadow-lg shadow-slate-200/80 bg-white'
             )}
           >
             {/* Top Indicator */}
             <div className="w-full flex items-center justify-between">
-              <span className="text-[10px] font-mono tracking-widest text-white/40 uppercase">
+              <span className="text-[10px] font-mono font-bold text-slate-400">
                 {position.code}
               </span>
               {isLocked ? (
-                <Lock className="w-3 h-3 text-white/30" />
+                <Lock className="w-3 h-3 text-slate-300" />
               ) : isCurrentTarget ? (
                 <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-800 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-900" />
                 </span>
               ) : null}
             </div>
 
-            {/* Central STATE/8 Symbol */}
+            {/* Central Symbol */}
             <div className="flex flex-col items-center justify-center">
               <div
                 className={cn(
-                  'w-12 h-12 sm:w-14 sm:h-14 rounded-full border flex items-center justify-center transition-all duration-300',
+                  'w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-200',
                   isCurrentTarget
-                    ? 'border-white/60 bg-white/10 shadow-[0_0_20px_rgba(255,255,255,0.2)]'
-                    : 'border-white/20 bg-white/5'
+                    ? 'border-slate-400 bg-slate-100 shadow-inner'
+                    : 'border-slate-200 bg-slate-50'
                 )}
               >
-                <div className="w-4 h-4 rounded-full border border-white/40 flex items-center justify-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                <div className="w-3.5 h-3.5 rounded-full border border-slate-400 flex items-center justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800" />
                 </div>
               </div>
-              <span className="text-[9px] font-mono tracking-[0.25em] text-white/30 uppercase mt-2.5">
+              <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-1.5">
                 STATE/8
               </span>
             </div>
 
-            {/* Bottom Status Prompt */}
+            {/* Bottom Status */}
             <div className="text-center w-full">
               {isCurrentTarget ? (
-                <span className="text-[10px] font-mono tracking-widest text-white uppercase animate-pulse">
-                  TAP TO REVEAL
+                <span className="text-[10px] font-bold text-slate-900 animate-pulse tracking-wide">
+                  轻触翻开
                 </span>
               ) : isLocked ? (
-                <span className="text-[9px] font-mono tracking-widest text-white/30 uppercase">
-                  {isKey ? 'LOCKED KEY' : 'WAITING'}
+                <span className="text-[9px] text-slate-400">
+                  {isKey ? '锁定中' : '等待'}
                 </span>
               ) : (
-                <span className="text-[9px] font-mono tracking-widest text-white/40 uppercase">
-                  IN QUEUE
+                <span className="text-[9px] text-slate-400">
+                  待翻开
                 </span>
               )}
             </div>
@@ -110,69 +110,66 @@ export function MirrorCard({
           {/* ================= CARD FRONT (REVEALED) ================= */}
           <div
             className={cn(
-              'absolute inset-0 rounded-2xl backface-hidden rotate-y-180 flex flex-col items-center justify-between p-4 sm:p-5 overflow-hidden',
-              'glass-panel border shadow-2xl'
+              'absolute inset-0 rounded-2xl backface-hidden rotate-y-180 flex flex-col items-center justify-between p-3.5 sm:p-4 overflow-hidden',
+              'border shadow-lg'
             )}
             style={{
-              borderColor: `rgba(${color.rgb}, 0.5)`,
-              boxShadow: `0 0 35px -5px rgba(${color.rgb}, 0.35), inset 0 0 20px rgba(${color.rgb}, 0.15)`,
-              background: `radial-gradient(circle at 50% 25%, rgba(${color.rgb}, 0.18) 0%, rgba(14, 14, 18, 0.95) 85%)`,
+              borderColor: color.lightBorder,
+              backgroundColor: '#ffffff',
+              boxShadow: `0 8px 24px -4px rgba(${color.rgb}, 0.25)`,
             }}
           >
-            {/* Ambient Interior Glow */}
+            {/* Top ambient color gradient */}
             <div
-              className="absolute -top-12 -right-12 w-28 h-28 rounded-full blur-2xl opacity-40 pointer-events-none"
+              className="absolute -top-8 -right-8 w-24 h-24 rounded-full blur-xl opacity-50 pointer-events-none"
               style={{ backgroundColor: color.glowHex }}
             />
 
-            {/* Top: Number & Mirror Name */}
+            {/* Top Number & Tag */}
             <div className="w-full flex items-center justify-between relative z-10">
-              <span className="text-[10px] font-mono tracking-widest uppercase font-semibold text-white/60">
+              <span className="text-[10px] font-mono font-bold text-slate-400">
                 {position.code}
               </span>
               <span
-                className="text-[10px] font-mono tracking-widest uppercase px-2 py-0.5 rounded-full border"
+                className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
                 style={{
-                  color: color.hex,
-                  borderColor: `rgba(${color.rgb}, 0.35)`,
-                  backgroundColor: `rgba(${color.rgb}, 0.1)`,
+                  backgroundColor: color.lightBg,
+                  color: color.textColor,
+                  border: `1px solid ${color.lightBorder}`,
                 }}
               >
-                {position.chinese}
+                {position.name}
               </span>
             </div>
 
-            {/* Center: Color & State */}
+            {/* Center State Showcase */}
             <div className="flex flex-col items-center justify-center text-center relative z-10">
               {/* Luminous Orb Badge */}
               <div
-                className="w-10 h-10 rounded-full border mb-3 flex items-center justify-center"
+                className="w-10 h-10 rounded-full border mb-2 flex items-center justify-center shadow-md"
                 style={{
-                  borderColor: `rgba(${color.rgb}, 0.6)`,
-                  background: `radial-gradient(circle, ${color.hex} 0%, rgba(${color.rgb}, 0.4) 60%, transparent 100%)`,
-                  boxShadow: `0 0 16px ${color.glowHex}`,
+                  borderColor: color.hex,
+                  backgroundColor: color.lightBg,
+                  boxShadow: `0 2px 10px ${color.glowHex}`,
                 }}
               >
-                <Sparkles className="w-4 h-4 text-white drop-shadow" />
+                <Sparkles className="w-4 h-4" style={{ color: color.textColor }} />
               </div>
 
-              <h4 className="text-xl sm:text-2xl font-mono font-bold tracking-widest uppercase text-white">
-                {color.name}
+              <h4 className="text-xl sm:text-2xl font-bold tracking-wide text-slate-900 font-sans">
+                {color.name} · {color.state}
               </h4>
               <p
-                className="text-sm font-mono tracking-[0.2em] uppercase font-semibold mt-0.5"
-                style={{ color: color.hex }}
+                className="text-xs font-medium mt-0.5"
+                style={{ color: color.textColor }}
               >
-                {color.state}
+                {color.keywords.slice(0, 2).join(' / ')}
               </p>
             </div>
 
-            {/* Bottom: Position Label */}
-            <div className="text-center w-full relative z-10 pt-2 border-t border-white/10">
-              <div className="text-[10px] font-mono tracking-[0.2em] text-white/80 uppercase font-medium">
-                {position.name}
-              </div>
-              <div className="text-[9px] text-white/40 font-mono mt-0.5">
+            {/* Bottom Position Label */}
+            <div className="text-center w-full relative z-10 pt-1.5 border-t border-slate-100">
+              <div className="text-[10px] font-bold text-slate-700">
                 {position.subtitle}
               </div>
             </div>
@@ -180,13 +177,13 @@ export function MirrorCard({
         </motion.div>
       </div>
 
-      {/* External Subtitle below Card */}
-      <div className="mt-2.5 text-center">
-        <span className="text-[11px] font-mono tracking-widest uppercase text-white/70 block">
-          {position.name}
+      {/* Subtitle below Card */}
+      <div className="mt-2 text-center">
+        <span className="text-xs font-bold text-slate-800 block">
+          {position.code} {position.name}
         </span>
-        <span className="text-[10px] text-white/40 font-sans block">
-          {position.chinese} · {position.subtitle}
+        <span className="text-[10px] text-slate-400 block font-normal">
+          {position.subtitle}
         </span>
       </div>
     </div>

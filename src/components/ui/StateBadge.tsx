@@ -20,41 +20,42 @@ export function StateBadge({
   onClick,
 }: StateBadgeProps) {
   const sizeClasses = {
-    sm: 'text-[11px] px-2.5 py-1 gap-1.5',
-    md: 'text-xs px-3.5 py-1.5 gap-2',
-    lg: 'text-sm px-4 py-2 gap-2.5',
+    sm: 'text-xs px-2.5 py-1 gap-1.5',
+    md: 'text-xs sm:text-sm px-3.5 py-1.5 gap-2',
+    lg: 'text-sm sm:text-base px-4 py-2 gap-2.5',
   }[size]
 
   return (
     <div
       onClick={onClick}
       style={{
-        borderColor: `rgba(${color.rgb}, 0.28)`,
-        backgroundColor: `rgba(${color.rgb}, 0.08)`,
+        borderColor: color.lightBorder,
+        backgroundColor: color.lightBg,
+        color: color.textColor,
       }}
       className={cn(
-        'inline-flex items-center rounded-full border backdrop-blur-md font-mono tracking-wider uppercase transition-all duration-200',
+        'inline-flex items-center rounded-full border shadow-sm backdrop-blur-md font-medium tracking-wide transition-all duration-200',
         onClick && 'cursor-pointer hover:scale-105',
         sizeClasses,
         className
       )}
     >
       <span
-        className="rounded-full flex-shrink-0 animate-pulse"
+        className="rounded-full flex-shrink-0"
         style={{
           backgroundColor: color.hex,
-          boxShadow: `0 0 10px ${color.glowHex}`,
-          width: size === 'sm' ? '6px' : size === 'md' ? '8px' : '10px',
-          height: size === 'sm' ? '6px' : size === 'md' ? '8px' : '10px',
+          boxShadow: `0 0 8px ${color.glowHex}`,
+          width: size === 'sm' ? '7px' : size === 'md' ? '8px' : '10px',
+          height: size === 'sm' ? '7px' : size === 'md' ? '8px' : '10px',
         }}
       />
-      <span className="font-semibold text-white/90">{color.name}</span>
-      <span className="text-white/40">·</span>
-      <span style={{ color: color.hex }}>{color.state}</span>
+      <span className="font-semibold">{color.name}</span>
+      <span className="opacity-40">·</span>
+      <span className="font-bold">{color.state}</span>
       {showKeywords && (
         <>
-          <span className="text-white/40 hidden sm:inline">·</span>
-          <span className="text-white/60 font-sans normal-case hidden sm:inline text-xs">
+          <span className="opacity-40 hidden sm:inline">·</span>
+          <span className="opacity-80 font-normal text-xs hidden sm:inline">
             {color.keywords.slice(0, 2).join(' · ')}
           </span>
         </>

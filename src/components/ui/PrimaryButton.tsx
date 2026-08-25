@@ -24,46 +24,46 @@ export function PrimaryButton({
 }: PrimaryButtonProps) {
   const sizeClasses = {
     sm: 'h-10 px-4 text-xs tracking-wider',
-    md: 'h-12 px-6 text-sm tracking-widest',
-    lg: 'h-14 px-8 text-base tracking-widest font-medium',
+    md: 'h-12 px-6 text-sm tracking-wide font-medium',
+    lg: 'h-13 sm:h-14 px-8 text-base tracking-wide font-medium',
   }[size]
 
   const variantClasses = {
     primary:
-      'bg-white text-black font-semibold hover:bg-slate-100 shadow-[0_0_25px_rgba(255,255,255,0.25)] hover:shadow-[0_0_35px_rgba(255,255,255,0.45)] border border-white/80',
+      'bg-slate-900 text-white font-medium hover:bg-slate-800 shadow-md shadow-slate-900/15 hover:shadow-lg hover:shadow-slate-900/25 border border-slate-900',
     secondary:
-      'bg-white/10 text-white hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-white/30',
+      'bg-white/90 text-slate-800 hover:bg-white border border-slate-200/80 shadow-sm hover:shadow-md backdrop-blur-md',
     outline:
-      'bg-transparent text-white/90 hover:text-white border border-white/20 hover:border-white/50 hover:bg-white/5',
+      'bg-transparent text-slate-700 hover:text-slate-900 border border-slate-300/80 hover:border-slate-500 hover:bg-white/50',
     ghost:
-      'bg-transparent text-white/70 hover:text-white hover:bg-white/5 border border-transparent',
-    glow: 'bg-white/10 text-white border border-white/30 backdrop-blur-xl',
+      'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/60 border border-transparent',
+    glow: 'bg-white/95 text-slate-900 border border-slate-200 shadow-lg shadow-slate-200/60 backdrop-blur-xl',
   }[variant]
 
   const customGlowStyle: React.CSSProperties = glowColor
     ? {
-        boxShadow: `0 0 30px ${glowColor}55`,
-        borderColor: `${glowColor}88`,
+        boxShadow: `0 8px 24px -4px ${glowColor}55`,
+        borderColor: `${glowColor}aa`,
       }
     : {}
 
   return (
     <motion.button
       whileTap={disabled ? undefined : { scale: 0.97 }}
-      whileHover={disabled ? undefined : { scale: 1.02 }}
+      whileHover={disabled ? undefined : { scale: 1.015 }}
       transition={{ duration: 0.15, ease: 'easeOut' }}
       disabled={disabled}
       style={customGlowStyle}
       className={cn(
-        'relative inline-flex items-center justify-center gap-2.5 rounded-full uppercase transition-all duration-300 select-none cursor-pointer',
-        'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-none',
+        'relative inline-flex items-center justify-center gap-2 rounded-full transition-all duration-200 select-none cursor-pointer',
+        'disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-none',
         sizeClasses,
         variantClasses,
         className
       )}
       {...props}
     >
-      {icon && <span className="opacity-80">{icon}</span>}
+      {icon && <span className="opacity-90">{icon}</span>}
       <span>{children}</span>
     </motion.button>
   )

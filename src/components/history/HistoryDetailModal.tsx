@@ -18,58 +18,54 @@ export function HistoryDetailModal({ reading, onClose }: HistoryDetailModalProps
   if (!reading) return null
 
   const dateObj = new Date(reading.createdAt)
-  const formattedDate = dateObj.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).toUpperCase()
+  const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/85 backdrop-blur-2xl transition-all"
+          className="fixed inset-0 bg-slate-900/35 backdrop-blur-md transition-all"
         />
 
-        {/* Content Box */}
+        {/* Modal Sheet */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl"
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 60 }}
+          className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-white"
         >
-          <GlassPanel variant="glow" className="p-6 sm:p-10 relative">
+          <GlassPanel variant="glow" className="p-5 sm:p-8 relative">
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
 
             {/* Header */}
-            <div className="mb-8 pr-8">
-              <div className="flex items-center gap-2 text-xs font-mono text-white/40 uppercase mb-3">
+            <div className="mb-6 pr-6">
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-2">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{formattedDate}</span>
                 <span>·</span>
-                <span>ARCHIVED READING</span>
+                <span>历史觉察记录</span>
               </div>
 
-              <blockquote className="text-xl sm:text-2xl font-light text-white italic mb-4 leading-relaxed">
-                &ldquo;{reading.question}&rdquo;
+              <blockquote className="text-lg sm:text-xl font-bold text-slate-900 mb-3 leading-relaxed">
+                “{reading.question}”
               </blockquote>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="text-xs font-mono tracking-widest uppercase text-white/40">
-                  PATTERN:
+              <div className="flex flex-wrap items-center gap-2.5">
+                <div className="text-xs font-bold text-slate-400">
+                  模式形态：
                 </div>
-                <span className="text-sm font-mono font-bold tracking-wider text-white uppercase">
+                <span className="text-sm font-bold text-slate-900">
                   {reading.pattern.title}
                 </span>
                 <StateBadge color={reading.key} size="sm" />
@@ -78,30 +74,30 @@ export function HistoryDetailModal({ reading, onClose }: HistoryDetailModalProps
 
             {/* Core Advice Summary */}
             <div
-              className="p-5 rounded-2xl border backdrop-blur-md mb-8"
+              className="p-4 rounded-2xl border mb-6"
               style={{
-                backgroundColor: `rgba(${reading.key.rgb}, 0.08)`,
-                borderColor: `rgba(${reading.key.rgb}, 0.3)`,
+                backgroundColor: reading.key.lightBg,
+                borderColor: reading.key.lightBorder,
               }}
             >
               <div
-                className="text-[10px] font-mono tracking-widest uppercase mb-1 flex items-center gap-1.5"
-                style={{ color: reading.key.hex }}
+                className="text-[10px] font-bold uppercase mb-1 flex items-center gap-1"
+                style={{ color: reading.key.textColor }}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>CORE DIRECTIVE</span>
+                <span>核心破局矢量</span>
               </div>
-              <p className="text-base sm:text-lg font-mono font-bold text-white uppercase tracking-wide">
+              <p className="text-base sm:text-lg font-bold text-slate-900">
                 {reading.pattern.coreAdvice}
               </p>
-              <p className="text-xs sm:text-sm text-white/70 italic mt-1 font-light">
-                &ldquo;{reading.pattern.deepReflection}&rdquo;
+              <p className="text-xs sm:text-sm text-slate-600 italic mt-1">
+                “{reading.pattern.deepReflection}”
               </p>
             </div>
 
-            {/* If reading has mirrors, show accordion and pattern map */}
+            {/* Mirrors Accordion & Map */}
             {reading.mirrors && reading.mirrors.length > 0 && (
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <PatternMap mirrors={reading.mirrors} question={reading.question} />
                 <MirrorAccordion mirrors={reading.mirrors} />
               </div>

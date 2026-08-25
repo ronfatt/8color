@@ -17,193 +17,133 @@ export default function HomePage() {
   const steps = [
     {
       step: '01',
-      title: 'ASK',
-      chinese: '立念',
-      description: 'Hold one clear question. Focus on a single decision, relationship, or crossroad.',
+      title: '立念',
+      subtitle: '明确当下问题',
+      description: '专注在一个清晰具体的困惑、抉择或人际处境上，不泛化、不分散。',
       icon: HelpCircle,
     },
     {
       step: '02',
-      title: 'REVEAL',
-      chinese: '映照',
-      description: 'Eight mirrors expose the hidden tension, emotional baseline, and structural reality.',
+      title: '映照',
+      subtitle: '八面镜像映射',
+      description: '通过核心、心念、情绪、行动等八个维度，逐一映照深层阻碍与盲区。',
       icon: Layers,
     },
     {
       step: '03',
-      title: 'READ',
-      chinese: '解钥',
-      description: 'One key state reveals where to move next. Not prediction — conscious vector alignment.',
+      title: '解钥',
+      subtitle: '看清破局矢量',
+      description: '最后一面钥匙指示下一步最需要调动的状态，顺势破局，而非蛮力硬磕。',
       icon: Sparkles,
     },
   ]
 
   return (
-    <div className="w-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 space-y-24 md:space-y-36 my-6 md:my-12">
+    <div className="w-full flex flex-col items-center space-y-12 sm:space-y-16 my-4 sm:my-8">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative w-full max-w-5xl mx-auto flex flex-col items-center text-center pt-8 md:pt-16">
+      <section className="w-full flex flex-col items-center text-center pt-2 sm:pt-6">
         {/* Subtle pill tag */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel-subtle border border-white/15 text-xs font-mono tracking-[0.3em] uppercase text-white/70 mb-6"
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/80 border border-slate-200 shadow-xs text-xs font-semibold text-slate-600 mb-4"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          <span>PERSONAL PATTERN ENGINE</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-800 animate-pulse" />
+          <span>个人状态模式引擎 · 觉察罗盘</span>
         </motion.div>
 
-        {/* Big Editorial Title */}
+        {/* Brand Title */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-mono font-black tracking-[0.15em] uppercase text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.2)] text-gradient-white"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl sm:text-6xl font-mono font-black tracking-widest text-slate-900 drop-shadow-xs"
         >
           STATE/8
         </motion.h1>
 
         {/* Subtitle & Core Philosophy */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-6 space-y-3 max-w-2xl"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-3 space-y-2 max-w-md"
         >
-          <p className="text-lg sm:text-2xl md:text-3xl font-light text-white/90 tracking-wide">
-            Read the pattern beneath the question.
+          <p className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">
+            未来未定，先看清现在。
           </p>
-          <div className="text-xs sm:text-sm font-mono tracking-[0.3em] uppercase text-white/50 pt-1">
-            8 COLORS · 8 MIRRORS · 1 KEY
+          <div className="text-xs font-bold text-slate-400 tracking-widest uppercase">
+            8 种状态 · 8 面镜像 · 1 把钥匙
           </div>
-          <p className="text-xs sm:text-sm font-mono text-white/40 italic">
-            &ldquo;未来未定，先看清现在。&rdquo;
+          <p className="text-xs text-slate-500 font-normal">
+            不测算命运，只解构你当下的心念与行动模式
           </p>
         </motion.div>
 
-        {/* Primary Call To Actions */}
+        {/* Primary CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.35 }}
-          className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-7 flex flex-col sm:flex-row items-center gap-3 w-full max-w-xs"
         >
-          <Link href="/reading" className="w-full sm:w-auto">
+          <Link href="/reading" className="w-full">
             <PrimaryButton
               size="lg"
-              className="w-full sm:w-auto min-w-[240px]"
-              icon={<Compass className="w-5 h-5" />}
+              className="w-full"
+              icon={<Compass className="w-4 h-4" />}
             >
-              Start A Reading
+              开始状态觉察
             </PrimaryButton>
           </Link>
 
-          <Link href="/daily" className="w-full sm:w-auto">
+          <Link href="/daily" className="w-full">
             <PrimaryButton
               size="lg"
               variant="secondary"
-              className="w-full sm:w-auto min-w-[180px]"
+              className="w-full"
               icon={<Sparkles className="w-4 h-4" />}
             >
-              Explore Today
+              抽今日状态
             </PrimaryButton>
           </Link>
         </motion.div>
 
-        {/* Anti-Mysticism Guarantee Footnote */}
+        {/* Anti-Mysticism Footnote */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="mt-12 flex items-center gap-2 text-[11px] font-mono text-white/30 tracking-widest uppercase"
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-6 flex items-center gap-1.5 text-[11px] text-slate-400 font-medium"
         >
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Non-predictive · Decision intelligence · Cognitive clarity</span>
+          <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />
+          <span>非命理占卜 · 决策清醒觉察 · 现代认知工具</span>
         </motion.div>
       </section>
 
-      {/* ================= SECTION 02: HOW IT WORKS ================= */}
-      <section className="w-full max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-xs font-mono tracking-[0.3em] uppercase text-white/40 block mb-2">
-            METHODOLOGY
+      {/* ================= SECTION 02: 8 STATES PREVIEW ================= */}
+      <section className="w-full">
+        <div className="text-center mb-4">
+          <span className="text-[11px] font-bold tracking-widest text-slate-400 uppercase block mb-1">
+            状态色彩系统
           </span>
-          <h2 className="text-3xl sm:text-4xl font-mono font-bold tracking-widest uppercase text-white">
-            HOW IT WORKS
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+            八重生命状态
           </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {steps.map((item, index) => {
-            const Icon = item.icon
-            return (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-              >
-                <GlassPanel
-                  variant="card"
-                  className="p-8 h-full flex flex-col justify-between group hover:border-white/30 relative overflow-hidden"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono tracking-[0.25em] text-white/40">
-                        {item.step}
-                      </span>
-                      <div className="w-9 h-9 rounded-full bg-white/5 group-hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/70 group-hover:text-white transition-colors">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-2xl font-mono font-bold tracking-wider uppercase text-white flex items-center gap-2">
-                        <span>{item.title}</span>
-                        <span className="text-xs font-mono text-white/40 font-normal">
-                          / {item.chinese}
-                        </span>
-                      </h3>
-                    </div>
-
-                    <p className="text-sm text-white/65 font-light leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-8 pt-4 border-t border-white/[0.06] text-[10px] font-mono tracking-widest text-white/30 uppercase">
-                    PHASE {item.step} FLOW
-                  </div>
-                </GlassPanel>
-              </motion.div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* ================= SECTION 03: THE EIGHT STATES ================= */}
-      <section className="w-full max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-xs font-mono tracking-[0.3em] uppercase text-white/40 block mb-2">
-            DESIGN TOKENS
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-mono font-bold tracking-widest uppercase text-white">
-            THE EIGHT STATES
-          </h2>
-          <p className="text-xs sm:text-sm text-white/50 mt-2 font-mono">
-            Tap any state to inspect its reflection frequency & action matrix.
+          <p className="text-xs text-slate-500 mt-0.5">
+            点击任意状态球，查看对应的心力频率与觉察提问
           </p>
         </div>
 
-        {/* Desktop: Horizontal Layout / Mobile: 2 x 4 Grid */}
-        <GlassPanel variant="glow" className="p-6 sm:p-10">
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-6 sm:gap-4 justify-items-center">
+        {/* 2 x 4 Grid for mobile friendliness */}
+        <GlassPanel variant="glow" className="p-4 sm:p-6">
+          <div className="grid grid-cols-4 gap-y-4 gap-x-2 justify-items-center">
             {STATE_COLOR_LIST.map((color) => (
               <ColorOrb
                 key={color.id}
                 color={color}
-                size={72}
+                size={58}
                 showLabel
                 onClick={() => setSelectedColor(color)}
               />
@@ -212,23 +152,71 @@ export default function HomePage() {
         </GlassPanel>
       </section>
 
+      {/* ================= SECTION 03: HOW IT WORKS ================= */}
+      <section className="w-full">
+        <div className="text-center mb-4">
+          <span className="text-[11px] font-bold tracking-widest text-slate-400 uppercase block mb-1">
+            运作机制
+          </span>
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+            如何看清模式
+          </h2>
+        </div>
+
+        <div className="space-y-3">
+          {steps.map((item, index) => {
+            const Icon = item.icon
+            return (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <GlassPanel
+                  variant="card"
+                  className="p-4.5 flex items-start gap-3.5 group hover:border-slate-400"
+                >
+                  <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-700 flex-shrink-0 font-mono font-bold text-sm">
+                    {item.step}
+                  </div>
+
+                  <div className="space-y-1 flex-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-base font-bold text-slate-900">
+                        {item.title}
+                      </h3>
+                      <span className="text-xs text-slate-400 font-normal">
+                        · {item.subtitle}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </GlassPanel>
+              </motion.div>
+            )
+          })}
+        </div>
+      </section>
+
       {/* ================= BOTTOM TEASER CTA ================= */}
-      <section className="w-full max-w-4xl mx-auto text-center pb-8">
-        <GlassPanel variant="subtle" className="p-8 sm:p-12 relative overflow-hidden">
-          <div className="max-w-xl mx-auto space-y-4">
-            <h3 className="text-2xl sm:text-3xl font-mono font-bold tracking-wider uppercase text-white">
-              Ready to clarify your position?
-            </h3>
-            <p className="text-sm text-white/60 font-light leading-relaxed">
-              Don’t force outcomes through friction. Expose the structural pattern and discover the key vector.
-            </p>
-            <div className="pt-4 flex justify-center">
-              <Link href="/reading">
-                <PrimaryButton size="lg" icon={<ArrowRight className="w-4 h-4" />}>
-                  Begin Inquiry
-                </PrimaryButton>
-              </Link>
-            </div>
+      <section className="w-full pb-4">
+        <GlassPanel variant="subtle" className="p-6 text-center space-y-3">
+          <h3 className="text-lg font-bold text-slate-900">
+            准备好梳理内心的困惑了吗？
+          </h3>
+          <p className="text-xs text-slate-500 leading-relaxed max-w-xs mx-auto">
+            不必在原地内耗。只需提出一个问题，让八面镜像照亮通往钥匙的路径。
+          </p>
+          <div className="pt-2 flex justify-center">
+            <Link href="/reading" className="w-full max-w-xs">
+              <PrimaryButton size="lg" className="w-full" icon={<ArrowRight className="w-4 h-4" />}>
+                开启当下觉察
+              </PrimaryButton>
+            </Link>
           </div>
         </GlassPanel>
       </section>

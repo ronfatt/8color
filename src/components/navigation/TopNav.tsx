@@ -11,36 +11,37 @@ export function TopNav() {
   const pathname = usePathname()
 
   const navItems = [
-    { href: '/reading', label: 'READING', icon: Compass },
-    { href: '/daily', label: 'DAILY', icon: Sparkles },
-    { href: '/history', label: 'HISTORY', icon: History },
-    { href: '/profile', label: 'PROFILE', icon: User },
+    { href: '/', label: '首页', icon: Compass },
+    { href: '/reading', label: '觉察起牌', icon: Activity },
+    { href: '/daily', label: '每日一照', icon: Sparkles },
+    { href: '/history', label: '模式档案', icon: History },
+    { href: '/profile', label: '关于罗盘', icon: User },
   ]
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 hidden md:block">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-6 h-18 flex items-center justify-between">
         {/* Brand Logo */}
         <Link
           href="/"
-          className="group flex items-center gap-3 select-none transition-transform hover:scale-[1.02]"
+          className="group flex items-center gap-3 select-none transition-transform hover:scale-[1.01]"
         >
-          <div className="relative w-8 h-8 rounded-full border border-white/20 bg-white/5 flex items-center justify-center backdrop-blur-md group-hover:border-white/50 transition-colors">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <div className="absolute inset-0 rounded-full bg-white/10 blur-sm group-hover:bg-white/30 transition-colors" />
+          <div className="relative w-8 h-8 rounded-full border border-slate-300/80 bg-white/90 shadow-sm flex items-center justify-center backdrop-blur-md">
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-800" />
+            <div className="absolute inset-0 rounded-full bg-slate-400/20 blur-sm" />
           </div>
           <div className="flex flex-col">
-            <span className="font-mono text-base font-bold tracking-[0.25em] text-white uppercase text-gradient-white">
+            <span className="font-bold text-base tracking-wider text-slate-900 font-mono">
               STATE/8
             </span>
-            <span className="text-[9px] font-mono tracking-widest text-white/40 uppercase -mt-1">
-              Pattern Engine
+            <span className="text-[10px] text-slate-500 font-medium -mt-1 tracking-widest">
+              个人状态模式引擎
             </span>
           </div>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="flex items-center gap-1.5 p-1.5 rounded-full glass-panel-subtle border border-white/10">
+        <nav className="flex items-center gap-1 p-1 rounded-full bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-sm">
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -51,15 +52,15 @@ export function TopNav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'relative px-5 py-2 rounded-full text-xs font-mono tracking-widest uppercase transition-all duration-200 select-none flex items-center gap-2',
-                  isActive ? 'text-white' : 'text-white/50 hover:text-white/80'
+                  'relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 select-none flex items-center gap-1.5',
+                  isActive ? 'text-slate-900 font-semibold' : 'text-slate-500 hover:text-slate-800'
                 )}
               >
                 {isActive && (
                   <motion.div
-                    layoutId="desktop-nav-active"
-                    className="absolute inset-0 rounded-full bg-white/10 border border-white/20 backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+                    layoutId="desktop-nav-active-light"
+                    className="absolute inset-0 rounded-full bg-slate-900/5 border border-slate-300/60 shadow-sm"
+                    transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
                   />
                 )}
                 <span className="relative z-10">{item.label}</span>
@@ -68,16 +69,13 @@ export function TopNav() {
           })}
         </nav>
 
-        {/* Right CTA */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/reading"
-            className="px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-xs font-mono tracking-wider uppercase text-white/90 transition-all duration-200 hover:border-white/40 flex items-center gap-2"
-          >
-            <Activity className="w-3.5 h-3.5 text-white/70" />
-            <span>Enter Pattern</span>
-          </Link>
-        </div>
+        {/* Right Action */}
+        <Link
+          href="/reading"
+          className="px-4 py-1.5 rounded-full bg-slate-900 text-white hover:bg-slate-800 text-xs font-medium tracking-wide shadow-sm hover:shadow transition-all"
+        >
+          开始觉察
+        </Link>
       </div>
     </header>
   )

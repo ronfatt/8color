@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import { MirrorResult } from '@/types/state8'
 import { GlassPanel } from '@/components/ui/GlassPanel'
 
@@ -11,14 +10,12 @@ interface PatternMapProps {
 }
 
 export function PatternMap({ mirrors, question }: PatternMapProps) {
-  // 8 node angles around a circle (in radians / degrees)
   const nodeCount = 8
-  const radius = 170 // Radius of circle in SVG coordinates
-  const centerX = 240
-  const centerY = 240
+  const radius = 160
+  const centerX = 230
+  const centerY = 230
 
   const nodes = mirrors.map((mirror, index) => {
-    // Start from top (-90 deg) and go clockwise
     const angle = (index * (360 / nodeCount) - 90) * (Math.PI / 180)
     const x = centerX + radius * Math.cos(angle)
     const y = centerY + radius * Math.sin(angle)
@@ -31,53 +28,45 @@ export function PatternMap({ mirrors, question }: PatternMapProps) {
   })
 
   return (
-    <GlassPanel variant="card" className="p-6 sm:p-8 my-10 overflow-hidden">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+    <GlassPanel variant="card" className="p-5 sm:p-7 my-8 overflow-hidden">
+      <div className="flex items-center justify-between gap-2 mb-4">
         <div>
-          <span className="text-[10px] font-mono tracking-[0.25em] text-white/40 uppercase block">
-            NEURAL TOPOLOGY
+          <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase block">
+            模式拓扑结构
           </span>
-          <h3 className="text-lg font-mono font-bold tracking-wider uppercase text-white">
-            PATTERN INTELLIGENCE MAP
+          <h3 className="text-base sm:text-lg font-bold text-slate-900">
+            八维状态认知图谱
           </h3>
         </div>
-        <div className="text-xs font-mono text-white/40 uppercase">
-          8 NODES · 1 SYSTEM
+        <div className="text-xs font-semibold text-slate-400">
+          8 维状态 · 1 体协同
         </div>
       </div>
 
-      {/* SVG Neural Graph */}
-      <div className="relative w-full max-w-[520px] aspect-square mx-auto flex items-center justify-center">
+      {/* SVG Neural Topology Graph */}
+      <div className="relative w-full max-w-[460px] aspect-square mx-auto flex items-center justify-center">
         <svg
-          viewBox="0 0 480 480"
-          className="w-full h-full filter drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+          viewBox="0 0 460 460"
+          className="w-full h-full filter drop-shadow-sm"
         >
-          <defs>
-            {/* Background Radar Rings */}
-            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.05)" />
-            </linearGradient>
-          </defs>
-
           {/* Concentric Guide Circles */}
           <circle
             cx={centerX}
             cy={centerY}
             r={radius * 0.45}
             fill="none"
-            stroke="rgba(255,255,255,0.05)"
-            strokeDasharray="4 4"
+            stroke="rgba(203, 213, 225, 0.6)"
+            strokeDasharray="3 3"
           />
           <circle
             cx={centerX}
             cy={centerY}
             r={radius}
             fill="none"
-            stroke="rgba(255,255,255,0.08)"
+            stroke="rgba(203, 213, 225, 0.8)"
           />
 
-          {/* Interconnecting perimeter web */}
+          {/* Lines */}
           {nodes.map((node, i) => {
             const nextNode = nodes[(i + 1) % nodes.length]
             const crossNode = nodes[(i + 4) % nodes.length]
@@ -89,26 +78,26 @@ export function PatternMap({ mirrors, question }: PatternMapProps) {
                   y1={node.y}
                   x2={nextNode.x}
                   y2={nextNode.y}
-                  stroke={`rgba(${node.mirror.color.rgb}, 0.2)`}
-                  strokeWidth="1"
+                  stroke={`rgba(${node.mirror.color.rgb}, 0.35)`}
+                  strokeWidth="1.5"
                 />
-                {/* Subtle Cross Diagonal */}
+                {/* Cross Line */}
                 <line
                   x1={node.x}
                   y1={node.y}
                   x2={crossNode.x}
                   y2={crossNode.y}
-                  stroke="rgba(255,255,255,0.03)"
+                  stroke="rgba(226, 232, 240, 0.7)"
                   strokeWidth="1"
-                  strokeDasharray="2 4"
+                  strokeDasharray="2 3"
                 />
-                {/* Radial Line to Center */}
+                {/* Radial to Center */}
                 <line
                   x1={centerX}
                   y1={centerY}
                   x2={node.x}
                   y2={node.y}
-                  stroke={`rgba(${node.mirror.color.rgb}, 0.35)`}
+                  stroke={`rgba(${node.mirror.color.rgb}, 0.5)`}
                   strokeWidth="1.5"
                 />
               </React.Fragment>
@@ -126,93 +115,79 @@ export function PatternMap({ mirrors, question }: PatternMapProps) {
                 <circle
                   cx={x}
                   cy={y}
-                  r={isKey ? 22 : 18}
-                  fill={`rgba(${mirror.color.rgb}, 0.15)`}
-                  stroke={`rgba(${mirror.color.rgb}, 0.6)`}
-                  strokeWidth={isKey ? 2 : 1}
-                  className="transition-all duration-300"
+                  r={isKey ? 22 : 17}
+                  fill={mirror.color.lightBg}
+                  stroke={mirror.color.hex}
+                  strokeWidth={isKey ? 2.5 : 1.5}
                 />
-                {/* Core node */}
+                {/* Core dot */}
                 <circle
                   cx={x}
                   cy={y}
-                  r={isKey ? 10 : 8}
+                  r={isKey ? 8 : 6}
                   fill={mirror.color.hex}
-                  filter="drop-shadow(0 0 6px rgba(255,255,255,0.5))"
                 />
-                {/* Node Label Text */}
+                {/* Labels */}
                 <text
                   x={x}
-                  y={y > centerY ? y + 26 : y - 20}
+                  y={y > centerY ? y + 22 : y - 16}
                   textAnchor="middle"
-                  fill="#ffffff"
-                  fontSize="9"
-                  fontFamily="monospace"
-                  fontWeight="600"
-                  letterSpacing="1px"
+                  fill="#0f172a"
+                  fontSize="10"
+                  fontWeight="bold"
                 >
-                  {mirror.position.code} {mirror.position.name}
+                  {mirror.position.name}
                 </text>
                 <text
                   x={x}
-                  y={y > centerY ? y + 36 : y - 10}
+                  y={y > centerY ? y + 33 : y - 6}
                   textAnchor="middle"
-                  fill={mirror.color.hex}
-                  fontSize="8"
-                  fontFamily="monospace"
+                  fill={mirror.color.textColor}
+                  fontSize="9"
+                  fontWeight="600"
                 >
-                  {mirror.color.name}
+                  {mirror.color.name}·{mirror.color.state}
                 </text>
               </g>
             )
           })}
 
-          {/* Center Question Hub Node */}
+          {/* Center Hub */}
           <circle
             cx={centerX}
             cy={centerY}
-            r="38"
-            fill="#121218"
-            stroke="rgba(255,255,255,0.25)"
+            r="36"
+            fill="#ffffff"
+            stroke="#94a3b8"
             strokeWidth="1.5"
-          />
-          <circle
-            cx={centerX}
-            cy={centerY}
-            r="30"
-            fill="none"
-            stroke="rgba(255,255,255,0.1)"
-            strokeDasharray="3 3"
+            className="filter drop-shadow-md"
           />
           <text
             x={centerX}
-            y={centerY - 6}
+            y={centerY - 4}
             textAnchor="middle"
-            fill="#ffffff"
-            fontSize="9"
-            fontFamily="monospace"
+            fill="#0f172a"
+            fontSize="10"
             fontWeight="bold"
-            letterSpacing="1.5px"
           >
-            INQUIRY
+            立念原点
           </text>
           <text
             x={centerX}
-            y={centerY + 8}
+            y={centerY + 9}
             textAnchor="middle"
-            fill="rgba(255,255,255,0.5)"
-            fontSize="7"
-            fontFamily="monospace"
+            fill="#64748b"
+            fontSize="8"
           >
-            STATE/8 CORE
+            核心问题
           </text>
         </svg>
       </div>
 
       {/* Footer Info */}
-      <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-white/50">
-        <span>CENTER: {question}</span>
-        <span>ORIENTATION: 8 VECTORS CONVERGED</span>
+      <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+        <span className="truncate max-w-xs">原点：{question}</span>
+        <span>状态：已聚合并解构</span>
       </div>
     </GlassPanel>
   )

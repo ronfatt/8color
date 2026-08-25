@@ -11,19 +11,17 @@ import { KeyReveal } from '@/components/reading/KeyReveal'
 export default function RevealPage() {
   const router = useRouter()
   const [reading, setReading] = useState<Reading | null>(null)
-  const [currentRevealIndex, setCurrentRevealIndex] = useState(0) // 0 to 7
+  const [currentRevealIndex, setCurrentRevealIndex] = useState(0)
   const [showKeyMoment, setShowKeyMoment] = useState(false)
 
   useEffect(() => {
-    // Load existing reading or fallback to a fresh demo reading
     let current = getCurrentReading()
     if (!current || !current.mirrors || current.mirrors.length === 0) {
-      current = createMockReading('What is the true pattern beneath my current path?')
+      current = createMockReading('我当下的真实状态与破局方向是什么？')
       saveCurrentReading(current)
     }
     setReading(current)
 
-    // Calculate how many mirrors are already revealed if resuming
     const revealedCount = current.mirrors.filter((m) => m.isRevealed).length
     setCurrentRevealIndex(revealedCount)
 
@@ -35,8 +33,8 @@ export default function RevealPage() {
   if (!reading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-xs font-mono tracking-widest text-white/40 uppercase animate-pulse">
-          INITIALIZING PATTERN FIELD...
+        <div className="text-xs font-semibold text-slate-400 animate-pulse">
+          正在布置镜像场域...
         </div>
       </div>
     )
@@ -62,17 +60,15 @@ export default function RevealPage() {
     const nextIndex = index + 1
     setCurrentRevealIndex(nextIndex)
 
-    // When 7 mirrors are revealed (indices 0 through 6), trigger Key moment
     if (nextIndex === 7) {
       setTimeout(() => {
         setShowKeyMoment(true)
-      }, 600)
+      }, 550)
     }
   }
 
   const handleKeyComplete = () => {
     if (!reading) return
-    // Mark key as revealed as well
     const updatedMirrors = reading.mirrors.map((m) => ({ ...m, isRevealed: true }))
     const updatedReading = { ...reading, mirrors: updatedMirrors }
     setReading(updatedReading)
@@ -82,7 +78,7 @@ export default function RevealPage() {
   }
 
   return (
-    <div className="w-full flex-1 flex flex-col justify-center items-center py-6 sm:py-10">
+    <div className="w-full flex-1 flex flex-col justify-center items-center py-2 sm:py-6">
       <MirrorBoard
         mirrors={reading.mirrors}
         currentRevealIndex={currentRevealIndex}
@@ -90,7 +86,7 @@ export default function RevealPage() {
         question={reading.question}
       />
 
-      {/* Focal Key Moment Overlay */}
+      {/* Key Moment Overlay */}
       {showKeyMoment && (
         <KeyReveal
           keyMirror={reading.mirrors[7]}

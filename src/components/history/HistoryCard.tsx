@@ -13,41 +13,38 @@ interface HistoryCardProps {
 
 export function HistoryCard({ reading, onClick }: HistoryCardProps) {
   const dateObj = new Date(reading.createdAt)
-  const formattedDate = dateObj.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-  }).toUpperCase()
+  const formattedDate = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
 
   return (
     <GlassPanel
       variant="card"
       onClick={onClick}
-      className="p-5 sm:p-6 cursor-pointer group hover:border-white/30"
+      className="p-4 sm:p-5 cursor-pointer group hover:border-slate-400"
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        {/* Left info: Date & Question */}
-        <div className="space-y-2 flex-1">
-          <div className="flex items-center gap-2 text-xs font-mono text-white/40 uppercase">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Left info */}
+        <div className="space-y-1.5 flex-1">
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
             <Calendar className="w-3.5 h-3.5" />
             <span>{formattedDate}</span>
             <span>·</span>
-            <span className="text-white/70 font-semibold">{reading.pattern.title}</span>
+            <span className="text-slate-800 font-bold">{reading.pattern.title}</span>
           </div>
 
-          <h3 className="text-base sm:text-lg font-light text-white group-hover:text-white/90 transition-colors">
-            &ldquo;{reading.question}&rdquo;
+          <h3 className="text-sm sm:text-base font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">
+            “{reading.question}”
           </h3>
 
-          <p className="text-xs text-white/50 line-clamp-1 font-light">
+          <p className="text-xs text-slate-500 line-clamp-1">
             {reading.pattern.summary}
           </p>
         </div>
 
-        {/* Right info: Key badge & Action */}
-        <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/[0.06]">
+        {/* Right info */}
+        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
           <StateBadge color={reading.key} size="sm" />
-          <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/50 group-hover:text-white transition-colors">
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          <div className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors">
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </div>
         </div>
       </div>

@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'STATE/8 — Personal Pattern Engine',
-  description: '8 Colors · 8 Mirrors · 1 Key. Don\'t predict the future. Read the pattern.',
+  title: 'STATE/8 · 个人状态模式引擎',
+  description: '8种状态 · 8面镜像 · 1把钥匙。未来未定，先看清现在。',
   icons: {
     icon: '/favicon.ico',
   },
@@ -30,22 +30,22 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark antialiased h-full`}
+      lang="zh-CN"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
     >
-      <body className="min-h-full flex flex-col bg-[#08080a] text-[#f4f4f7] selection:bg-white/20 selection:text-white">
-        {/* Floating 8-color orbital background */}
+      <body className="min-h-full flex flex-col bg-[#f8f9fc] text-[#0f172a] selection:bg-blue-100 selection:text-blue-900">
+        {/* Warm Luminous Pastel Ambient Background */}
         <AmbientBackground />
 
-        {/* Global Desktop Navigation */}
+        {/* Desktop Navigation */}
         <TopNav />
 
-        {/* Main Application Content Container */}
-        <main className="flex-1 w-full pt-16 md:pt-24 pb-24 md:pb-16 flex flex-col">
+        {/* Main Mobile-first App Shell */}
+        <main className="flex-1 w-full max-w-lg mx-auto pt-4 md:pt-20 pb-22 md:pb-12 flex flex-col px-3 sm:px-4">
           {children}
         </main>
 
-        {/* Global Mobile Bottom Navigation */}
+        {/* Mobile Bottom Navigation */}
         <BottomNav />
       </body>
     </html>

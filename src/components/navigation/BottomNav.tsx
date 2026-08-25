@@ -11,16 +11,16 @@ export function BottomNav() {
   const pathname = usePathname()
 
   const navItems = [
-    { href: '/', label: 'HOME', icon: Home },
-    { href: '/reading', label: 'READ', icon: Compass },
-    { href: '/daily', label: 'DAILY', icon: Sparkles },
-    { href: '/history', label: 'HISTORY', icon: History },
-    { href: '/profile', label: 'PROFILE', icon: User },
+    { href: '/', label: '首页', icon: Home },
+    { href: '/reading', label: '觉察起牌', icon: Compass },
+    { href: '/daily', label: '每日一照', icon: Sparkles },
+    { href: '/history', label: '模式档案', icon: History },
+    { href: '/profile', label: '关于', icon: User },
   ]
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden px-4 pb-4 pt-2">
-      <nav className="glass-panel-glow max-w-md mx-auto rounded-full px-2 py-2 flex items-center justify-around border border-white/15">
+    <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden px-3 pb-4 pt-1">
+      <nav className="glass-panel-glow max-w-sm mx-auto rounded-full px-2 py-1.5 flex items-center justify-around border border-white/90 shadow-xl shadow-slate-300/40">
         {navItems.map((item) => {
           const isActive =
             pathname === item.href ||
@@ -33,24 +33,24 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'relative flex flex-col items-center justify-center min-w-[56px] min-h-[50px] rounded-full py-1 transition-all duration-200 select-none',
-                isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
+                'relative flex flex-col items-center justify-center min-w-[54px] min-h-[50px] rounded-full py-1 transition-all duration-200 select-none cursor-pointer',
+                isActive ? 'text-slate-900 font-semibold' : 'text-slate-400 hover:text-slate-700'
               )}
             >
               {isActive && (
                 <motion.div
-                  layoutId="mobile-nav-active"
-                  className="absolute inset-0 rounded-full bg-white/10 border border-white/20 shadow-[0_0_12px_rgba(255,255,255,0.2)]"
-                  transition={{ type: 'spring', bounce: 0.25, duration: 0.4 }}
+                  layoutId="mobile-nav-active-light"
+                  className="absolute inset-0 rounded-full bg-slate-900/[0.06] border border-slate-300/80 shadow-sm"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
                 />
               )}
               <Icon
                 className={cn(
                   'w-5 h-5 transition-transform relative z-10',
-                  isActive && 'scale-110'
+                  isActive && 'scale-110 text-slate-900'
                 )}
               />
-              <span className="text-[9px] font-mono tracking-widest uppercase mt-0.5 relative z-10 font-medium">
+              <span className="text-[10px] tracking-wide uppercase mt-0.5 relative z-10 font-medium">
                 {item.label}
               </span>
             </Link>

@@ -1,213 +1,174 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
 import {
   User,
   Shield,
   Sliders,
-  Globe,
-  Moon,
-  Volume2,
-  Trash2,
-  ExternalLink,
   Sparkles,
-  Info,
+  Trash2,
+  HelpCircle,
+  Layers,
 } from 'lucide-react'
 import { GlassPanel } from '@/components/ui/GlassPanel'
-import { PrimaryButton } from '@/components/ui/PrimaryButton'
 
 export default function ProfilePage() {
-  const [soundEnabled, setSoundEnabled] = useState(true)
-  const [hapticsEnabled, setHapticsEnabled] = useState(true)
   const [ambientGlow, setAmbientGlow] = useState(true)
-  const [language, setLanguage] = useState<'EN' | 'ZH'>('EN')
   const [clearMessage, setClearMessage] = useState('')
 
   const handleClearHistory = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('state8_saved_readings')
       localStorage.removeItem('state8_current_reading')
-      setClearMessage('Local reading cache cleared.')
+      setClearMessage('本地记录缓存已清空。')
       setTimeout(() => setClearMessage(''), 3000)
     }
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+    <div className="w-full max-w-lg mx-auto py-4 space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/5 border border-white/15 text-xs font-mono tracking-[0.25em] uppercase text-white/70">
+      <div className="text-center space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-xs text-xs font-semibold text-slate-600">
           <User className="w-3.5 h-3.5" />
-          <span>SYSTEM & PREFERENCES</span>
+          <span>关于罗盘与偏好</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-mono font-black tracking-wider uppercase text-white text-gradient-white">
-          PROFILE
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900">
+          系统设置与理念
         </h1>
-        <p className="text-sm sm:text-base text-white/50 font-light max-w-md mx-auto">
-          Local engine preferences and STATE/8 philosophical manifesto.
+        <p className="text-xs sm:text-sm text-slate-500 max-w-xs mx-auto">
+          本地状态引擎偏好与 STATE/8 觉察罗盘哲学
         </p>
       </div>
 
-      {/* User Identity Panel */}
-      <GlassPanel variant="glow" className="p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="w-20 h-20 rounded-full border border-white/20 bg-white/5 flex items-center justify-center relative shadow-[0_0_20px_rgba(255,255,255,0.15)]">
-            <span className="w-4 h-4 rounded-full bg-white animate-pulse" />
-            <div className="absolute inset-0 rounded-full bg-white/10 blur-md" />
+      {/* User Card */}
+      <GlassPanel variant="glow" className="p-5 sm:p-6">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full border border-slate-200 bg-white shadow-sm flex items-center justify-center relative">
+            <span className="w-3 h-3 rounded-full bg-slate-800 animate-pulse" />
+            <div className="absolute inset-0 rounded-full bg-slate-300/30 blur-sm" />
           </div>
 
-          <div className="space-y-2 text-center sm:text-left flex-1">
-            <div className="inline-block text-[10px] font-mono tracking-widest text-emerald-400 uppercase bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-              ACTIVE PATTERN NODE
+          <div className="space-y-1 flex-1">
+            <div className="inline-block text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              觉察节点已激活
             </div>
-            <h2 className="text-2xl font-mono font-bold tracking-wider uppercase text-white">
-              OBSERVER // 08
+            <h2 className="text-lg font-bold text-slate-900">
+              自主观察者 // 08
             </h2>
-            <p className="text-xs font-mono text-white/50 tracking-wide">
-              Round 01 Prototype · Session Local Storage
+            <p className="text-xs text-slate-500 font-normal">
+              第一轮原型系统 · 本地浏览器独立运行
             </p>
           </div>
         </div>
       </GlassPanel>
 
-      {/* Engine Settings */}
-      <GlassPanel variant="card" className="p-6 sm:p-8 space-y-6">
-        <div className="flex items-center gap-2 border-b border-white/10 pb-4">
-          <Sliders className="w-4 h-4 text-white/70" />
-          <h3 className="text-sm font-mono font-bold tracking-widest uppercase text-white">
-            ENGINE PREFERENCES
+      {/* Preferences */}
+      <GlassPanel variant="card" className="p-5 sm:p-6 space-y-5">
+        <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+          <Sliders className="w-4 h-4 text-slate-700" />
+          <h3 className="text-xs font-bold text-slate-900">
+            交互与显示偏好
           </h3>
         </div>
 
-        <div className="space-y-5">
-          {/* Language */}
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <div className="text-sm font-mono uppercase text-white flex items-center gap-2">
-                <Globe className="w-3.5 h-3.5 text-white/60" />
-                <span>Language / 语言</span>
-              </div>
-              <p className="text-xs text-white/40">Primary reflection vocabulary</p>
-            </div>
-            <div className="flex items-center gap-1 p-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs">
-              <button
-                onClick={() => setLanguage('EN')}
-                className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${
-                  language === 'EN' ? 'bg-white text-black font-semibold' : 'text-white/60 hover:text-white'
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLanguage('ZH')}
-                className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${
-                  language === 'ZH' ? 'bg-white text-black font-semibold' : 'text-white/60 hover:text-white'
-                }`}
-              >
-                中文
-              </button>
-            </div>
-          </div>
-
-          {/* Theme */}
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <div className="text-sm font-mono uppercase text-white flex items-center gap-2">
-                <Moon className="w-3.5 h-3.5 text-white/60" />
-                <span>Visual Theme</span>
-              </div>
-              <p className="text-xs text-white/40">Obsidian Black Glass (Locked)</p>
-            </div>
-            <span className="text-xs font-mono text-white/60 uppercase px-3 py-1 rounded-full bg-white/5 border border-white/10">
-              OBSIDIAN
-            </span>
-          </div>
-
+        <div className="space-y-4">
           {/* Ambient Lighting */}
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <div className="text-sm font-mono uppercase text-white flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-white/60" />
-                <span>Ambient Orb Motion</span>
+              <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-slate-500" />
+                <span>动态背景光斑</span>
               </div>
-              <p className="text-xs text-white/40">Slow breathing background particles</p>
+              <p className="text-[11px] text-slate-400">后台缓慢流动的8色彩球</p>
             </div>
             <button
               onClick={() => setAmbientGlow(!ambientGlow)}
-              className={`w-12 h-6 rounded-full transition-colors relative p-0.5 cursor-pointer ${
-                ambientGlow ? 'bg-white' : 'bg-white/20'
+              className={`w-11 h-6 rounded-full transition-colors relative p-0.5 cursor-pointer ${
+                ambientGlow ? 'bg-slate-900' : 'bg-slate-200'
               }`}
             >
               <div
-                className={`w-5 h-5 rounded-full bg-black transition-transform ${
-                  ambientGlow ? 'translate-x-6' : 'translate-x-0'
+                className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+                  ambientGlow ? 'translate-x-5' : 'translate-x-0'
                 }`}
               />
             </button>
           </div>
 
-          {/* Reset Cache */}
-          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
+          {/* Language / Theme */}
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <div className="text-sm font-mono uppercase text-red-300 flex items-center gap-2">
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Clear Local Cache</span>
+              <div className="text-xs font-bold text-slate-800">
+                界面语言 / 视觉主题
               </div>
-              <p className="text-xs text-white/40">Deletes saved readings from this browser</p>
+              <p className="text-[11px] text-slate-400">纯中文 · 温暖明亮光感 (iOS App 体验)</p>
+            </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              全中文 · 暖白
+            </span>
+          </div>
+
+          {/* Reset Cache */}
+          <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+            <div className="space-y-0.5">
+              <div className="text-xs font-bold text-red-600 flex items-center gap-1.5">
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>清空本地历史记录</span>
+              </div>
+              <p className="text-[11px] text-slate-400">删除存储在当前浏览器中的起牌记录</p>
             </div>
             <button
               onClick={handleClearHistory}
-              className="text-xs font-mono tracking-wider uppercase text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-500/30 hover:bg-red-500/10 transition-colors cursor-pointer"
+              className="text-xs font-medium text-red-600 hover:text-red-700 px-3 py-1.5 rounded-lg border border-red-200 hover:bg-red-50 transition-colors cursor-pointer"
             >
-              Clear Data
+              清理缓存
             </button>
           </div>
 
           {clearMessage && (
-            <p className="text-xs font-mono text-emerald-400 uppercase tracking-widest animate-pulse text-right">
+            <p className="text-xs font-semibold text-emerald-600 text-right animate-pulse">
               {clearMessage}
             </p>
           )}
         </div>
       </GlassPanel>
 
-      {/* Manifesto & Philosophy of STATE/8 */}
-      <GlassPanel variant="subtle" className="p-6 sm:p-10 space-y-6">
-        <div className="flex items-center gap-2 border-b border-white/10 pb-4">
-          <Shield className="w-4 h-4 text-white/70" />
-          <h3 className="text-sm font-mono font-bold tracking-widest uppercase text-white">
-            ABOUT STATE/8 & MANIFESTO
+      {/* Manifesto */}
+      <GlassPanel variant="subtle" className="p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-3">
+          <Shield className="w-4 h-4 text-slate-700" />
+          <h3 className="text-xs font-bold text-slate-900">
+            STATE/8 觉察罗盘理念宣言
           </h3>
         </div>
 
-        <div className="space-y-4 text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+        <div className="space-y-3 text-xs text-slate-600 leading-relaxed font-normal">
+          <p className="font-bold text-slate-900 text-sm">
+            未来未定，先看清现在。
+          </p>
           <p>
-            <strong className="text-white font-mono uppercase tracking-wider block mb-1">
-              DON&apos;T PREDICT THE FUTURE. READ THE PATTERN.
-            </strong>
-            STATE/8 is not a fortune-telling tool, nor does it rely on astrology, zodiac signs, tarot archetypes, or chakras. Future events are indeterminate; what is fixed and readable is the energetic and mental posture you hold right now.
+            STATE/8 绝不是紫微斗数、塔罗牌、星座或传统算命工具。未来是由当下的无数选择动态生成的，无法被预言；真正可以被清晰读取的，是你当下所处的心力状态与行为模式。
+          </p>
+          <p>
+            通过将一个具体问题置于 <strong>8种状态色彩</strong> 与 <strong>8面镜像维度</strong>（核心、心念、情绪、行动、人际、现实、阻碍、钥匙）中进行解构，罗盘帮助你跳出情绪内耗，精准锁定破局的关键钥匙。
           </p>
 
-          <p>
-            By mapping one single question through <strong>8 Color States</strong> and <strong>8 Mirror Dimensions</strong> (Core, Mind, Emotion, Action, Relation, Reality, Block, Key), STATE/8 exposes where momentum is leaking and identifies the exact pivot state required for alignment.
-          </p>
-
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 mt-4">
-            <div className="text-[11px] font-mono tracking-widest text-white uppercase font-bold">
-              CORE AXIOMS:
+          <div className="p-3.5 rounded-xl bg-white border border-slate-200/90 space-y-2 mt-3 shadow-2xs">
+            <div className="text-[11px] font-bold text-slate-800">
+              罗盘三项基本法则：
             </div>
-            <ul className="list-disc list-inside space-y-1 font-mono text-xs text-white/60">
-              <li>01 · No future prediction — only present pattern diagnosis.</li>
-              <li>02 · Motion must support meaning, never gratuitous flash.</li>
-              <li>03 · Awareness dissolves friction faster than brute force.</li>
+            <ul className="list-disc list-inside space-y-1 text-slate-600">
+              <li>01 · 不预言未来 — 只诊断当下的心念与行动模式。</li>
+              <li>02 · 不迷信宿命 — 觉察带来清醒，清醒带来选择。</li>
+              <li>03 · 顺势而调整 — 觉察规律，以巧劲化解刚性蛮力。</li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-4 text-center text-xs font-mono text-white/30 tracking-widest uppercase">
-          STATE/8 ENGINE · VERSION 1.0.0 (ROUND 01)
+        <div className="pt-3 text-center text-[10px] font-bold text-slate-400">
+          STATE/8 ENGINE · 移动端版本 1.0 (第 1 轮)
         </div>
       </GlassPanel>
     </div>

@@ -2,67 +2,68 @@
 
 @layer base {
   :root {
-    --bg-obsidian: #08080a;
-    --bg-graphite: #0f0f13;
-    --bg-surface: #14141a;
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --border-glass-hover: rgba(255, 255, 255, 0.16);
-    --text-primary: #f4f4f7;
-    --text-secondary: #9494a8;
-    --text-muted: #5e5e72;
+    --bg-base: #f8f9fc;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f1f4f9;
+    --border-light: rgba(226, 232, 240, 0.8);
+    --border-glass: rgba(255, 255, 255, 0.85);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
   }
 
   body {
-    background-color: var(--bg-obsidian);
+    background-color: var(--bg-base);
     color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
     overflow-x: hidden;
     min-height: 100vh;
-    selection-background-color: rgba(255, 255, 255, 0.2);
+    selection-background-color: rgba(59, 130, 246, 0.15);
   }
 
   * {
-    border-color: var(--border-glass);
+    border-color: var(--border-light);
     -webkit-tap-highlight-color: transparent;
   }
 }
 
-/* Glass & Surface Utilities */
+/* Bright Frosted Glass & Surface Utilities */
 .glass-panel {
-  background: rgba(18, 18, 24, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px -5px rgba(148, 163, 184, 0.15), 0 0 0 1px rgba(241, 245, 249, 0.8);
 }
 
 .glass-panel-subtle {
-  background: rgba(18, 18, 24, 0.4);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.1);
 }
 
 .glass-panel-glow {
-  background: rgba(22, 22, 30, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 35px -5px rgba(255, 255, 255, 0.05), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 15px 40px -10px rgba(100, 116, 139, 0.18), 0 0 25px rgba(255, 255, 255, 0.8);
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(25, 25, 34, 0.65) 0%, rgba(14, 14, 18, 0.75) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px -6px rgba(148, 163, 184, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 14px 32px -8px rgba(100, 116, 139, 0.18);
 }
 
 /* 3D Flip Card System */
@@ -83,81 +84,33 @@
   transform: rotateY(180deg);
 }
 
-/* Ambient Grain & Gradient Background */
+/* Ambient Grain & Warm Luminous Overlay */
 .bg-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(100, 116, 139, 0.05) 1px, transparent 0);
+  background-size: 20px 20px;
 }
 
-.text-gradient-white {
-  background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+.text-gradient-dark {
+  background: linear-gradient(180deg, #0f172a 0%, #334155 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.text-gradient-silver {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Custom Sleek Scrollbar */
+/* Custom Sleek Bright Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(8, 8, 10, 0.8);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(148, 163, 184, 0.3);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* Animations */
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-15px) scale(1.03);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.08);
-  }
-}
-
-@keyframes spinVerySlow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-float-slow {
-  animation: floatSlow 8s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-.animate-spin-slow {
-  animation: spinVerySlow 45s linear infinite;
+  background: rgba(100, 116, 139, 0.5);
 }

@@ -14,7 +14,6 @@ export default function ReadingPage() {
 
   const handleQuestionSubmit = (enteredQuestion: string) => {
     setQuestion(enteredQuestion)
-    // Create new mock reading and persist
     const newReading = createMockReading(enteredQuestion)
     saveCurrentReading(newReading)
     setPhase('centering')
@@ -25,7 +24,7 @@ export default function ReadingPage() {
   }
 
   return (
-    <div className="w-full flex-1 flex flex-col justify-center items-center px-4 py-8">
+    <div className="w-full flex-1 flex flex-col justify-center items-center py-4">
       {phase === 'ask' && (
         <QuestionInput onSubmit={handleQuestionSubmit} initialValue={question} />
       )}

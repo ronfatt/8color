@@ -23,7 +23,7 @@ export default function ResultPage() {
   useEffect(() => {
     let current = getCurrentReading()
     if (!current) {
-      current = createMockReading('Should I restructure the current project architecture?')
+      current = createMockReading('我是否需要对目前的产品架构做一次彻底调整？')
     }
     setReading(current)
     setIsSaved(Boolean(current.isSaved))
@@ -32,8 +32,8 @@ export default function ResultPage() {
   if (!reading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-xs font-mono tracking-widest text-white/40 uppercase animate-pulse">
-          SYNTHESIZING PATTERN FIELD...
+        <div className="text-xs font-semibold text-slate-400 animate-pulse">
+          正在解构模式图谱...
         </div>
       </div>
     )
@@ -50,7 +50,7 @@ export default function ResultPage() {
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(
-        `STATE/8 Reading: "${question}" — Pattern: ${pattern.title} (${keyColor.name} · ${keyColor.state})`
+        `STATE/8 状态觉察：“${question}” — 模式：${pattern.title}（${keyColor.name} · ${keyColor.state}）`
       )
       setCopyFeedback(true)
       setTimeout(() => setCopyFeedback(false), 2500)
@@ -58,7 +58,7 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-12">
+    <div className="w-full max-w-lg mx-auto py-3 sm:py-6 space-y-6 sm:space-y-8">
       {/* 1. Header & Pattern Diagnosis */}
       <PatternHeader
         pattern={pattern}
@@ -66,112 +66,115 @@ export default function ResultPage() {
         question={question}
       />
 
-      {/* 2. Neural Pattern Map */}
+      {/* 2. Neural Topology Graph */}
       <PatternMap mirrors={mirrors} question={question} />
 
-      {/* 3. Eight Mirrors Deep Deconstruction */}
+      {/* 3. Eight Mirrors Breakdown */}
       <MirrorAccordion mirrors={mirrors} />
 
       {/* 4. Final Key Resolution Spotlight */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
       >
         <GlassPanel
           variant="glow"
-          glowColor={keyColor.glowHex}
-          className="p-6 sm:p-10 relative overflow-hidden"
+          className="p-5 sm:p-7 relative overflow-hidden"
         >
-          {/* Subtle background ambient blob */}
+          {/* Subtle top ambient tint */}
           <div
-            className="absolute -top-32 -left-32 w-80 h-80 rounded-full blur-[100px] opacity-25 pointer-events-none"
+            className="absolute -top-20 -left-20 w-60 h-60 rounded-full blur-3xl opacity-40 pointer-events-none"
             style={{ backgroundColor: keyColor.glowHex }}
           />
 
-          <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/15 text-xs font-mono tracking-widest uppercase text-white/70">
+          <div className="text-center space-y-3.5 relative z-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-600">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>THE RESOLVING VECTOR</span>
+              <span>核心破局矢量</span>
             </div>
 
-            <div className="space-y-1">
-              <span className="text-xs font-mono tracking-[0.25em] uppercase text-white/40 block">
-                THE KEY
+            <div className="space-y-0.5">
+              <span className="text-xs font-bold text-slate-400 block tracking-widest">
+                破局之钥
               </span>
               <h2
-                className="text-4xl sm:text-5xl font-mono font-black tracking-widest uppercase"
-                style={{ color: keyColor.hex }}
+                className="text-3xl sm:text-4xl font-bold tracking-tight"
+                style={{ color: keyColor.textColor }}
               >
                 {keyColor.name} · {keyColor.state}
               </h2>
             </div>
 
             {/* Directive Copy */}
-            <p className="text-xl sm:text-2xl font-mono font-bold text-white tracking-wide uppercase pt-2">
-              &ldquo;{pattern.coreAdvice}&rdquo;
+            <p className="text-lg sm:text-xl font-bold text-slate-900 leading-snug pt-1">
+              “{pattern.coreAdvice}”
             </p>
 
             {/* Deep Reflection */}
             <div
-              className="p-4 sm:p-5 rounded-2xl border backdrop-blur-md max-w-xl mx-auto mt-4"
+              className="p-3.5 sm:p-4 rounded-2xl border max-w-sm mx-auto"
               style={{
-                backgroundColor: `rgba(${keyColor.rgb}, 0.08)`,
-                borderColor: `rgba(${keyColor.rgb}, 0.3)`,
+                backgroundColor: keyColor.lightBg,
+                borderColor: keyColor.lightBorder,
               }}
             >
               <div
-                className="text-[10px] font-mono tracking-widest uppercase mb-1"
-                style={{ color: keyColor.hex }}
+                className="text-[10px] font-bold uppercase mb-1"
+                style={{ color: keyColor.textColor }}
               >
-                REFLECTION FOR ACTION
+                落地觉察提问
               </div>
-              <p className="text-sm sm:text-base font-light text-white/90 italic">
-                &ldquo;{pattern.deepReflection}&rdquo;
+              <p className="text-xs sm:text-sm font-medium text-slate-800 italic">
+                “{pattern.deepReflection}”
               </p>
             </div>
 
             {/* Action Buttons */}
-            <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="pt-4 flex flex-col gap-2.5 w-full max-w-xs mx-auto">
               <PrimaryButton
                 size="lg"
                 variant={isSaved ? 'secondary' : 'primary'}
                 onClick={handleSaveReading}
                 disabled={isSaved}
+                className="w-full"
                 icon={
                   isSaved ? (
-                    <BookmarkCheck className="w-4 h-4 text-emerald-400" />
+                    <BookmarkCheck className="w-4 h-4 text-emerald-600" />
                   ) : (
                     <Bookmark className="w-4 h-4" />
                   )
                 }
               >
-                {isSaved ? 'Reading Saved' : 'Save Reading'}
+                {isSaved ? '已保存至档案' : '保存本次觉察'}
               </PrimaryButton>
 
-              <Link href="/reading">
-                <PrimaryButton
-                  size="lg"
-                  variant="outline"
-                  icon={<RotateCcw className="w-4 h-4" />}
-                >
-                  Start Another
-                </PrimaryButton>
-              </Link>
+              <div className="flex items-center gap-2 w-full">
+                <Link href="/reading" className="flex-1">
+                  <PrimaryButton
+                    size="md"
+                    variant="outline"
+                    className="w-full"
+                    icon={<RotateCcw className="w-3.5 h-3.5" />}
+                  >
+                    重新起牌
+                  </PrimaryButton>
+                </Link>
 
-              <button
-                onClick={handleShare}
-                className="p-3.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
-                title="Copy pattern summary"
-              >
-                <Share2 className="w-4 h-4" />
-              </button>
+                <button
+                  onClick={handleShare}
+                  className="p-3 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 transition-colors cursor-pointer shadow-xs"
+                  title="复制结果摘要"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {copyFeedback && (
-              <div className="text-xs font-mono text-emerald-400 uppercase tracking-widest animate-pulse">
-                Pattern summary copied to clipboard
+              <div className="text-xs font-semibold text-emerald-600 tracking-wide animate-pulse">
+                已复制觉察摘要至剪贴板
               </div>
             )}
           </div>
