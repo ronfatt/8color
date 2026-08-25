@@ -2,102 +2,121 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, RotateCw, Calendar, ArrowRight, Quote } from 'lucide-react'
-import { STATE_COLOR_LIST, STATE_COLORS } from '@/lib/constants'
-import { DailyState, StateColor } from '@/types/state8'
-import { getDailyState, saveDailyState } from '@/lib/storage'
+import { RotateCw, Calendar, ArrowRight, Quote, Zap } from 'lucide-react'
+import { STATE_COLOR_LIST, STATE_COLORS } from '@/lib/state8/colors'
+import { DailyMood, DailyState, StateColor } from '@/lib/state8/types'
+import { getDailyState, saveDailyState, getDailyHistory, addDailyHistory } from '@/lib/storage'
 import { ColorOrb } from '@/components/ui/ColorOrb'
+import { MoodCheckIn } from '@/components/daily/MoodCheckIn'
+import { DailyTimeline } from '@/components/daily/DailyTimeline'
 import { GlassPanel } from '@/components/ui/GlassPanel'
 import { PrimaryButton } from '@/components/ui/PrimaryButton'
 import Link from 'next/link'
 
 export default function DailyPage() {
   const [dailyState, setDailyState] = useState<DailyState | null>(null)
+  const [dailyHistory, setDailyHistory] = useState<DailyState[]>([])
   const [isDrawing, setIsDrawing] = useState(false)
 
   const dateObj = new Date()
   const todayFormatted = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
 
-  const dailyReflections: Record<string, string[]> = {
-    white: [
-      '留意今天有什么旧预期需要及时放下，给内心腾出空白。',
-      '卸下一个背负已久的执念，尝试从零重新审视。',
-      '在增添新任务之前，先果断删除一项无意义的消耗。',
-    ],
-    purple: [
-      '留意那些你内心早就清楚、却一直未曾承认的事实。',
-      '以旁观者的视角静观自身的情绪起伏，不加批判。',
-      '相信内在直觉的沉静判断，不被外界的嘈杂所带偏。',
-    ],
-    blue: [
-      '今天试着不带情绪、坦诚地说出一句最真实的心声。',
-      '用心倾听他人言语背后的真正诉求与意图。',
-      '在妥协演变为内耗前，清晰界定好自己的边界。',
-    ],
-    pink: [
-      '在你习惯性紧绷的地方，注入一份温和与轻盈。',
-      '允许温暖的情感流动，融化心中筑起的坚硬防备。',
-      '以由衷的善意对待自己的疲惫，接纳不完美。',
-    ],
-    green: [
-      '方法只需微调5%，就能顺势化解蛮力无法攻克的难题。',
-      '顺应阻力调整航向，而不是一味硬碰硬。',
-      '寻找更优雅的突破切入点，保持策略的敏捷与弹性。',
-    ],
-    yellow: [
-      '列出清晰的评估标准，坚决砍掉三项非核心干扰。',
-      '区分什么是真正的要事，什么是焦虑带来的假性紧迫。',
-      '果断做出那项你一直犹豫不决的取舍。',
-    ],
-    orange: [
-      '耐心的等待并非懈怠，而是保持敏锐、深度蓄能。',
-      '静待果实自然成熟，切忌过早收割。',
-      '在外部时机未明朗前，沉下心把内功打磨扎实。',
-    ],
-    red: [
-      '今天迈出那个你反复思虑、迟迟未决的关键第一步。',
-      '停止空想，用坚定的执行力给一件悬而未决的事收尾。',
-      '行动创造真实的引力，唯有执行能击碎所有疑虑。',
-    ],
-  }
-
-  const getRandomReflection = (color: StateColor): string => {
-    const list = dailyReflections[color.id] || [color.question]
-    return list[Math.floor(Math.random() * list.length)]
+  const dailyReflections: Record<string, { reflection: string; action: string }> = {
+    white: {
+      reflection: '留意今天有什么旧预期需要及时放下，给内心腾出空白。',
+      action: '在增添新任务之前，先果断删除一项无意义的消耗。',
+    },
+    purple: {
+      reflection: '留意那些你内心早就清楚、却一直未曾承认的事实。',
+      action: '以旁观者的视角静观自身的情绪起伏，不加批判。',
+    },
+    blue: {
+      reflection: '今天试着不带情绪、坦诚地说出一句最真实的心声。',
+      action: '在妥协演变为内耗前，清晰界定好自己的边界。',
+    },
+    pink: {
+      reflection: '在你习惯性紧绷的地方，注入一份温和与轻盈。',
+      action: '以由衷的善意对待自己的疲惫，接纳不完美。',
+    },
+    green: {
+      reflection: '方法只需微调5%，就能顺势化解蛮力无法攻克的难题。',
+      action: '顺应阻力调整航向，寻找更敏捷的切入点。',
+    },
+    yellow: {
+      reflection: '列出清晰的评估标准，坚决砍掉三项非核心干扰。',
+      action: '果断做出那项你一直犹豫不决的取舍。',
+    },
+    orange: {
+      reflection: '耐心的等待并非懈怠，而是保持敏锐、深度蓄能。',
+      action: '在外部时机未明朗前，沉下心把内功打磨扎实。',
+    },
+    red: {
+      reflection: '今天迈出那个你反复思虑、迟迟未决的关键第一步。',
+      action: '用坚定的执行力给一件悬而未决的事收尾。',
+    },
   }
 
   useEffect(() => {
+    const history = getDailyHistory()
+    setDailyHistory(history)
+
     const saved = getDailyState()
-    if (saved) {
+    if (saved && saved.date === todayFormatted) {
       setDailyState(saved)
     } else {
       const initialColor = STATE_COLORS.purple
+      const data = dailyReflections[initialColor.id]
       const initial: DailyState = {
         date: todayFormatted,
         color: initialColor,
-        reflection: getRandomReflection(initialColor),
+        reflection: data.reflection,
+        action: data.action,
         timestamp: Date.now(),
       }
       setDailyState(initial)
       saveDailyState(initial)
+      addDailyHistory(initial)
     }
   }, [todayFormatted])
+
+  const handleSelectMood = (mood: DailyMood) => {
+    if (!dailyState) return
+    const updated = { ...dailyState, mood }
+    setDailyState(updated)
+    saveDailyState(updated)
+    addDailyHistory(updated)
+  }
 
   const handleDrawToday = () => {
     setIsDrawing(true)
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * STATE_COLOR_LIST.length)
       const randomColor = STATE_COLOR_LIST[randomIndex]
+      const data = dailyReflections[randomColor.id] || {
+        reflection: randomColor.question,
+        action: randomColor.actionAdvice,
+      }
       const newDaily: DailyState = {
         date: todayFormatted,
+        mood: dailyState?.mood,
         color: randomColor,
-        reflection: getRandomReflection(randomColor),
+        reflection: data.reflection,
+        action: data.action,
         timestamp: Date.now(),
       }
       setDailyState(newDaily)
       saveDailyState(newDaily)
+      addDailyHistory(newDaily)
       setIsDrawing(false)
-    }, 550)
+    }, 500)
+  }
+
+  const handleEveningReflection = (answer: 'YES' | 'A_LITTLE' | 'NOT_REALLY') => {
+    if (!dailyState) return
+    const updated = { ...dailyState, eveningReflection: answer }
+    setDailyState(updated)
+    saveDailyState(updated)
+    addDailyHistory(updated)
   }
 
   if (!dailyState) return null
@@ -117,11 +136,17 @@ export default function DailyPage() {
           每日一照 · 晨间状态
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 max-w-xs mx-auto">
-          校准你今天的核心心理状态与行动基调
+          感知今日主导状态，顺应规律展开行动
         </p>
       </div>
 
-      {/* Main Daily State Orb Card */}
+      {/* 1. Morning Mood Check-In */}
+      <MoodCheckIn
+        selectedMood={dailyState.mood}
+        onSelectMood={handleSelectMood}
+      />
+
+      {/* 2. Main Daily State Card */}
       <GlassPanel
         variant="glow"
         className="p-6 sm:p-8 text-center relative overflow-hidden"
@@ -163,22 +188,37 @@ export default function DailyPage() {
 
           {/* Reflection Card */}
           <div
-            className="p-4 rounded-2xl border w-full"
+            className="p-4 rounded-2xl border w-full space-y-2.5"
             style={{
               backgroundColor: color.lightBg,
               borderColor: color.lightBorder,
             }}
           >
-            <div
-              className="text-[10px] font-bold uppercase mb-1.5 flex items-center justify-center gap-1"
-              style={{ color: color.textColor }}
-            >
-              <Quote className="w-3.5 h-3.5" />
-              <span>今日觉察心语</span>
+            <div>
+              <div
+                className="text-[10px] font-bold uppercase mb-1 flex items-center justify-center gap-1"
+                style={{ color: color.textColor }}
+              >
+                <Quote className="w-3.5 h-3.5" />
+                <span>今日觉察心语</span>
+              </div>
+              <p className="text-sm font-medium text-slate-800 leading-relaxed italic">
+                “{dailyState.reflection}”
+              </p>
             </div>
-            <p className="text-sm font-medium text-slate-800 leading-relaxed italic">
-              “{dailyState.reflection}”
-            </p>
+
+            <div className="pt-2 border-t border-slate-200/60">
+              <div
+                className="text-[10px] font-bold uppercase mb-0.5 flex items-center justify-center gap-1"
+                style={{ color: color.textColor }}
+              >
+                <Zap className="w-3 h-3" />
+                <span>今日微行动</span>
+              </div>
+              <p className="text-xs text-slate-700 font-normal">
+                {dailyState.action}
+              </p>
+            </div>
           </div>
 
           {/* Action CTAs */}
@@ -207,6 +247,13 @@ export default function DailyPage() {
           </div>
         </div>
       </GlassPanel>
+
+      {/* 3. Evening Check-In & 7-Day Timeline */}
+      <DailyTimeline
+        history={dailyHistory}
+        onEveningReflection={handleEveningReflection}
+        currentEveningAnswer={dailyState.eveningReflection}
+      />
     </div>
   )
 }

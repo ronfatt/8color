@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ArrowRight, Calendar } from 'lucide-react'
-import { Reading } from '@/types/state8'
+import { Reading } from '@/lib/state8/types'
 import { GlassPanel } from '@/components/ui/GlassPanel'
 import { StateBadge } from '@/components/ui/StateBadge'
 
@@ -14,6 +14,8 @@ interface HistoryCardProps {
 export function HistoryCard({ reading, onClick }: HistoryCardProps) {
   const dateObj = new Date(reading.createdAt)
   const formattedDate = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
+  const patternName = reading.analysis?.primaryPattern?.name || 'FORCE → SHIFT'
+  const patternSummary = reading.analysis?.primaryPattern?.summary || '结构重组型'
 
   return (
     <GlassPanel
@@ -28,7 +30,7 @@ export function HistoryCard({ reading, onClick }: HistoryCardProps) {
             <Calendar className="w-3.5 h-3.5" />
             <span>{formattedDate}</span>
             <span>·</span>
-            <span className="text-slate-800 font-bold">{reading.pattern.title}</span>
+            <span className="text-slate-800 font-bold">{patternName}</span>
           </div>
 
           <h3 className="text-sm sm:text-base font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">
@@ -36,7 +38,7 @@ export function HistoryCard({ reading, onClick }: HistoryCardProps) {
           </h3>
 
           <p className="text-xs text-slate-500 line-clamp-1">
-            {reading.pattern.summary}
+            {patternSummary}
           </p>
         </div>
 

@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, Sparkles } from 'lucide-react'
-import { Reading } from '@/types/state8'
+import { Reading } from '@/lib/state8/types'
 import { GlassPanel } from '@/components/ui/GlassPanel'
 import { StateBadge } from '@/components/ui/StateBadge'
 import { MirrorAccordion } from '@/components/result/MirrorAccordion'
@@ -19,6 +19,9 @@ export function HistoryDetailModal({ reading, onClose }: HistoryDetailModalProps
 
   const dateObj = new Date(reading.createdAt)
   const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
+  const patternName = reading.analysis?.primaryPattern?.name || 'FORCE → SHIFT'
+  const coreAdvice = reading.analysis?.primaryPattern?.coreAdvice || reading.key.actionAdvice
+  const deepReflection = reading.analysis?.primaryPattern?.deepReflection || reading.key.question
 
   return (
     <AnimatePresence>
@@ -66,7 +69,7 @@ export function HistoryDetailModal({ reading, onClose }: HistoryDetailModalProps
                   模式形态：
                 </div>
                 <span className="text-sm font-bold text-slate-900">
-                  {reading.pattern.title}
+                  {patternName}
                 </span>
                 <StateBadge color={reading.key} size="sm" />
               </div>
@@ -88,10 +91,10 @@ export function HistoryDetailModal({ reading, onClose }: HistoryDetailModalProps
                 <span>核心破局矢量</span>
               </div>
               <p className="text-base sm:text-lg font-bold text-slate-900">
-                {reading.pattern.coreAdvice}
+                {coreAdvice}
               </p>
               <p className="text-xs sm:text-sm text-slate-600 italic mt-1">
-                “{reading.pattern.deepReflection}”
+                “{deepReflection}”
               </p>
             </div>
 

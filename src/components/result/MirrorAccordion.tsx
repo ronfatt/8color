@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, HelpCircle, Eye } from 'lucide-react'
-import { MirrorResult } from '@/types/state8'
+import { ChevronDown, HelpCircle, Sun, Moon } from 'lucide-react'
+import { MirrorResult } from '@/lib/state8/types'
 import { GlassPanel } from '@/components/ui/GlassPanel'
 import { cn } from '@/lib/utils'
 
@@ -22,7 +22,7 @@ export function MirrorAccordion({ mirrors }: MirrorAccordionProps) {
     <div className="space-y-3 my-6">
       <div className="flex items-center justify-between px-1 mb-2">
         <span className="text-xs font-bold text-slate-400 tracking-wider">
-          八面镜像详细解构
+          八面镜像深度解构（含双向解读）
         </span>
         <button
           onClick={() => setExpandedIndex(expandedIndex === null ? 0 : null)}
@@ -34,7 +34,7 @@ export function MirrorAccordion({ mirrors }: MirrorAccordionProps) {
 
       {mirrors.map((mirror, index) => {
         const isExpanded = expandedIndex === index
-        const { position, color, analysis } = mirror
+        const { position, color, interpretation } = mirror
         const isKey = position.id === 'key'
 
         return (
@@ -88,7 +88,7 @@ export function MirrorAccordion({ mirrors }: MirrorAccordionProps) {
                     </span>
                   </div>
                   <p className="text-xs text-slate-600 truncate mt-0.5">
-                    {analysis.summary}
+                    {interpretation.meaning}
                   </p>
                 </div>
               </div>
@@ -126,15 +126,39 @@ export function MirrorAccordion({ mirrors }: MirrorAccordionProps) {
                       镜像属性：<span className="font-semibold text-slate-700">{position.subtitle}</span> — {position.description}
                     </div>
 
-                    {/* Pattern Observation */}
+                    {/* Meaning */}
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-                      <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1">
-                        <Eye className="w-3 h-3 text-slate-500" />
-                        <span>该维度的状态投射</span>
+                      <div className="text-[10px] font-bold text-slate-400 uppercase mb-1">
+                        核心含义解析
                       </div>
                       <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
-                        {analysis.patternObservation}
+                        {interpretation.meaning}
                       </p>
+                    </div>
+
+                    {/* Dual Expression: Light & Shadow */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {/* Light Expression */}
+                      <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/70 space-y-1">
+                        <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-800 uppercase">
+                          <Sun className="w-3 h-3 text-emerald-600" />
+                          <span>顺应面 / 赋能特质</span>
+                        </div>
+                        <p className="text-xs text-emerald-950 leading-relaxed font-normal">
+                          {interpretation.lightExpression}
+                        </p>
+                      </div>
+
+                      {/* Shadow Expression */}
+                      <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                        <div className="flex items-center gap-1 text-[10px] font-bold text-amber-800 uppercase">
+                          <Moon className="w-3 h-3 text-amber-600" />
+                          <span>阻滞面 / 惯性盲区</span>
+                        </div>
+                        <p className="text-xs text-amber-950 leading-relaxed font-normal">
+                          {interpretation.shadowExpression}
+                        </p>
+                      </div>
                     </div>
 
                     {/* Reflection Question */}
@@ -153,7 +177,7 @@ export function MirrorAccordion({ mirrors }: MirrorAccordionProps) {
                         <span>自我觉察提问</span>
                       </div>
                       <p className="text-xs sm:text-sm font-medium text-slate-800 italic">
-                        “{analysis.reflectionQuestion}”
+                        “{interpretation.reflectionQuestion}”
                       </p>
                     </div>
                   </div>

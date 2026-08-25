@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createMockReading } from '@/lib/pattern-engine'
+import { createReadingEngine } from '@/lib/state8/readingEngine'
 import { saveCurrentReading } from '@/lib/storage'
 import { QuestionInput } from '@/components/reading/QuestionInput'
 import { CenteringScreen } from '@/components/reading/CenteringScreen'
@@ -14,7 +14,7 @@ export default function ReadingPage() {
 
   const handleQuestionSubmit = (enteredQuestion: string) => {
     setQuestion(enteredQuestion)
-    const newReading = createMockReading(enteredQuestion)
+    const newReading = createReadingEngine(enteredQuestion)
     saveCurrentReading(newReading)
     setPhase('centering')
   }

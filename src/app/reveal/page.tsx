@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Reading } from '@/types/state8'
+import { Reading } from '@/lib/state8/types'
 import { getCurrentReading, saveCurrentReading } from '@/lib/storage'
-import { createMockReading } from '@/lib/pattern-engine'
+import { createReadingEngine } from '@/lib/state8/readingEngine'
 import { MirrorBoard } from '@/components/reading/MirrorBoard'
 import { KeyReveal } from '@/components/reading/KeyReveal'
 
@@ -17,7 +17,7 @@ export default function RevealPage() {
   useEffect(() => {
     let current = getCurrentReading()
     if (!current || !current.mirrors || current.mirrors.length === 0) {
-      current = createMockReading('我当下的真实状态与破局方向是什么？')
+      current = createReadingEngine('我当下的真实状态与破局方向是什么？')
       saveCurrentReading(current)
     }
     setReading(current)
