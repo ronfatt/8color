@@ -6,13 +6,12 @@ import { Reading } from '@/lib/state8/types'
 import { getCurrentReading, saveCurrentReading } from '@/lib/storage'
 import { createReadingEngine } from '@/lib/state8/readingEngine'
 import { MirrorBoard } from '@/components/reading/MirrorBoard'
-import { KeyReveal } from '@/components/reading/KeyReveal'
+import confetti from 'canvas-confetti'
 
 export default function RevealPage() {
   const router = useRouter()
   const [reading, setReading] = useState<Reading | null>(null)
-  const [currentRevealIndex, setCurrentRevealIndex] = useState(0)
-  const [showKeyMoment, setShowKeyMoment] = useState(false)
+  const [isAllRevealed, setIsAllRevealed] = useState(false)
 
   useEffect(() => {
     let current = getCurrentReading()
@@ -20,14 +19,12 @@ export default function RevealPage() {
       current = createReadingEngine('我当下的真实状态与破局方向是什么？')
       saveCurrentReading(current)
     }
-    setReading(current)
 
-    const revealedCount = current.mirrors.filter((m) => m.isRevealed).length
-    setCurrentRevealIndex(revealedCount)
-
-    if (revealedCount >= 7) {
-      setShowKeyMoment(true)
-    }
+    // Set initial mirrors to unrevealed for fresh reveal experience
+    const freshMirrors = current.mirrors.map((m) => ({ ...m, isRevealed: false }))
+    const initialReading = { ...current, mirrors: freshMirrors }
+    setReading(initialReading)
+    setIsAllRevealed(false)
   }, [])
 
   if (!reading) {
@@ -40,14 +37,14 @@ export default function RevealPage() {
     )
   }
 
-  const handleRevealMirror = (index: number) => {
-    if (!reading) return
+  const handleFlipAll = () => {
+    if (!reading || isAllRevealed) return
 
-    const updatedMirrors = [...reading.mirrors]
-    updatedMirrors[index] = {
-      ...updatedMirrors[index],
+    // Flip all 8 cards at once
+    const updatedMirrors = reading.mirrors.map((m) => ({
+      ...m,
       isRevealed: true,
-    }
+    }))
 
     const updatedReading: Reading = {
       ...reading,
@@ -56,24 +53,25 @@ export default function RevealPage() {
 
     setReading(updatedReading)
     saveCurrentReading(updatedReading)
+    setIsAllRevealed(true)
 
-    const nextIndex = index + 1
-    setCurrentRevealIndex(nextIndex)
-
-    if (nextIndex === 7) {
+    // Trigger celebratory particle effect
+    try {
       setTimeout(() => {
-        setShowKeyMoment(true)
-      }, 550)
+        confetti({
+          particleCount: 40,
+          spread: 70,
+          origin: { y: 0.55 },
+          colors: ['#ca8a04', '#3b82f6', '#10b981', '#ef4444', '#8b5cf6', '#ec4899'],
+          disableForReducedMotion: true,
+        })
+      }, 450)
+    } catch {
+      // ignore
     }
   }
 
-  const handleKeyComplete = () => {
-    if (!reading) return
-    const updatedMirrors = reading.mirrors.map((m) => ({ ...m, isRevealed: true }))
-    const updatedReading = { ...reading, mirrors: updatedMirrors }
-    setReading(updatedReading)
-    saveCurrentReading(updatedReading)
-
+  const handleComplete = () => {
     router.push('/result')
   }
 
@@ -81,18 +79,11 @@ export default function RevealPage() {
     <div className="w-full flex-1 flex flex-col justify-center items-center py-2 sm:py-6">
       <MirrorBoard
         mirrors={reading.mirrors}
-        currentRevealIndex={currentRevealIndex}
-        onRevealMirror={handleRevealMirror}
+        isAllRevealed={isAllRevealed}
+        onFlipAll={handleFlipAll}
+        onComplete={handleComplete}
         question={reading.question}
       />
-
-      {/* Key Moment Overlay */}
-      {showKeyMoment && (
-        <KeyReveal
-          keyMirror={reading.mirrors[7]}
-          onComplete={handleKeyComplete}
-        />
-      )}
     </div>
   )
 }
